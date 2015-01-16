@@ -364,7 +364,7 @@ This way you are limiting the upwards velocity to 200 at most. By using the nega
 
 ## Make the fly rotate
 
-One of the nice details of Flappy Bird is the way the bird rotates. When the player does not touch the screen for a little while the bird turns towards the ground, touching the screen makes the bird turn upwards again. You are going to imitate this behaviour in Flappy Fly!
+One of the nice details of Flappy Bird is the way the bird rotates. When the player does not touch the screen for a little while the bird turns towards the ground, touching the screen makes the bird turn upwards again. You are going to imitate this behavior in Flappy Fly!
 
 There are a couple of things you will need to do to achieve this:
 
@@ -405,7 +405,7 @@ Next, you check if the hero allows rotation because later you will disable rotat
 
 Finally, you check if more than half a second passed since the last touch. If that is the case a strong downward rotation impulse is applied.
 
-Now run your game again. The behaviour should be similar to this:
+Now run your game again. The behavior should be similar to this:
 
 ![](https://static.makegameswith.us/gamernews_images/4bC4exbJ1k/Flying.gif)
 
@@ -613,7 +613,7 @@ Now you can run the App and see the pipes drawn behind the ground:
 
 ![](https://static.makegameswith.us/gamernews_images/YekaG7W71H/iOS Simulator Screen shot 10 Feb 2014 20.44.05.png)
 
-# The final steps: setting up collisons
+# The final steps: setting up collisions
 
 You are going to set up collision handling so that your game finally becomes as frustrating as *Flappy Bird*. Any good game needs to be unforgiving and frustrating, right?
 
@@ -812,14 +812,14 @@ To fix this quickly, open *MainScene.swift* and navigate to the *update* method.
 
 This rounds the physics node's position to the nearest integer coordinates. A position like 115.763, 213.298 is then rounded to 116.0, 213.0. This ensures the position is on pixel boundaries, preventing the subpixel rendering artifacts above.
 
-Now if you consider that the positions in cocos2d is in points, not pixels, you'll know the above code does in fact round to the nearest point. On Retina devices this would limit the scrolling position (or rather: precision) to point coordinates, ie not using the full resolution of the Retina screen. You'll hardly notice the difference, if at all. On the other hand, moving the position of the physics node to actual pixel boundaries (Retina or not) is still quite simple.
+Now if you consider that the positions in cocos2d is in points, not pixels, you'll know the above code does in fact round to the nearest point. On Retina devices this would limit the scrolling position (or rather: precision) to point coordinates, i.e. not using the full resolution of the Retina screen. You'll hardly notice the difference, if at all. On the other hand, moving the position of the physics node to actual pixel boundaries (Retina or not) is still quite simple.
 
 Replace the above code artifact fix code with the following enhanced code that properly rounds to Retina pixel boundaries:
 
     var scale = CCDirector.sharedDirector().contentScaleFactor
     _physicsNode.position = ccp(round(_physicsNode.position.x * scale) / scale, round(_physicsNode.position.y * scale) / scale)
 
-That's easy to explain. The content scale factor is 1.0 on non-Retina devices, and 2.0 on all Retina devices. On non-Retina devices the code has the exact same result - multiply and divide by 1.0 makes no difference. But on Retina devices, the position coordinates are first multiplied by 2.0 (ie 213.298 becomes 426.596) and then the rounding takes effect (new value: 427.0). Then the rounded value is divided by 2.0, resulting in a value whose fractional part is either .0 or .5 (here: 213.5). Since the position is in points, not pixels, and the Retina pixels resolution is twice the point resolution, any .5 coordinate is also on an exact pixel boundary.
+That's easy to explain. The content scale factor is 1.0 on non-Retina devices, and 2.0 on all Retina devices. On non-Retina devices the code has the exact same result - multiply and divide by 1.0 makes no difference. But on Retina devices, the position coordinates are first multiplied by 2.0 (i.e. 213.298 becomes 426.596) and then the rounding takes effect (new value: 427.0). Then the rounded value is divided by 2.0, resulting in a value whose fractional part is either .0 or .5 (here: 213.5). Since the position is in points, not pixels, and the Retina pixels resolution is twice the point resolution, any .5 coordinate is also on an exact pixel boundary.
 
 You can apply this "black line" artifact to any situation where they occur. Just keep in mind that you'll want to apply the fix to "parent-most" node whose position changes, and you may need to apply it on child nodes as well. For instance if the player were a tile itself, it might also need to have its position rounded to the nearest pixel coordinate.
 
