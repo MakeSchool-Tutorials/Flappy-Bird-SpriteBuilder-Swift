@@ -814,7 +814,7 @@ This rounds the physics node's position to the nearest integer coordinates. A po
 
 Now if you consider that the positions in cocos2d is in points, not pixels, you'll know the above code does in fact round to the nearest point. On Retina devices this would limit the scrolling position (or rather: precision) to point coordinates, i.e. not using the full resolution of the Retina screen. You'll hardly notice the difference, if at all. On the other hand, moving the position of the physics node to actual pixel boundaries (Retina or not) is still quite simple.
 
-Replace the above code artifact fix code with the following enhanced code that properly rounds to Retina pixel boundaries:
+Replace the above artifact fix code with the following enhanced code that properly rounds to Retina pixel boundaries:
 
     var scale = CCDirector.sharedDirector().contentScaleFactor
     _physicsNode.position = ccp(round(_physicsNode.position.x * scale) / scale, round(_physicsNode.position.y * scale) / scale)
