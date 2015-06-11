@@ -17,8 +17,6 @@ This is the updated Swift version of the [Objective-C Flappy Fly Tutorial](https
 
 This tutorial will teach you how to implement a Flappy Bird clone for iOS using Apple's new Swift programming language together with SpriteBuilder and Cocos2D. You'll start with a blank project.
 
-If you aren't familiar with SpriteBuilder you should consider reading our [SpriteBuilder beginner tutorial](https://www.makeschool.com/tutorials/getting-started-with-spritebuilder/) first since this tutorial assumes that you are familiar with basic SpriteBuilder tasks.
-
 If you complete this tutorial you will learn how to:
 
 *   implement an endless scroller
@@ -33,16 +31,6 @@ The solution to this [tutorial is available on GitHub](https://github.com/MakeGa
 Let's get started with *Flappy Fly Swift*.
 
 # Getting Started
-
-First of all let's do a quick version check. This tutorial is written using SpriteBuilder v1.4 and the bundled Cocos2D v3.4.
-
-If SpriteBuilder v1.4 is not yet available on the App Store by the time you are reading this, you should [get the v1.4 beta here](http://www.spritebuilder.com/beta). Otherwise you can't complete the fly's sprite frame animation step as you will not be able to create a dynamic physics body that has a sprite frame animation at the same time.
-
-You can check your SpriteBuilder version by opening the *About SpriteBuilder* dialog (depicted is a very early version 1.0.3 of SpriteBuilder):
-
-![](./Screen Shot 2014-02-10 at 15.13.33.png)
-
-Using a different version of SpriteBuilder or Cocos2D may lead to different results in some of the steps. Especially if you use older versions some things just might not work. In case you have problems resolving version issues please post your question on the [SpriteBuilder forum](http://forum.spritebuilder.com).
 
 ## Basic concepts of a side scroller in Cocos2d
 
@@ -60,7 +48,7 @@ We will implement the game as follows:
 
 The first step is to create a new SpriteBuilder project. You need to select Swift as the *Primary Language* in the *New File* dialog as highlighted below:
 
-![](flappy-fly-swift-images/spritebuilder-new-swift-project.png)
+![](../flappy-fly-swift-images/spritebuilder-new-swift-project.png)
 
 ## Adding Artwork
 
@@ -592,7 +580,7 @@ While you can use the zOrder property to fix that, it's a lot easier to use "lay
 
 Open *MainScene.ccb* in SpriteBuilder and drag a *Node* from the Node Library View onto the CCPhysicsNode. Drag and move the newly added node so that it is the first node after CCPhysicsNode, and you may want to rename it to "obstacles layer":
 
-![](flappy-fly-swift-images/spritebuilder-mainscene-obstacles-layer.png)
+![](../flappy-fly-swift-images/spritebuilder-mainscene-obstacles-layer.png)
 
 Then select that *obstacles layer* node and set up a code connection. In the *doc root var* field enter *obstaclesLayer*.
 
@@ -618,7 +606,7 @@ You are going to set up collision handling so that your game finally becomes as 
 
 First, open *Obstacle.ccb* in SpriteBuilder in order to enable physics for the pipes. Select one of the two pipes, switch to the Item Physics tab and check the *Enable Physics* checkbox. Change the body type to *Static* and enter *level* in the *Collision Type* field, as shown in the screenshot below. Do this for both pipes.
 
-![](flappy-fly-swift-images/enable-pipe-physics.png)
+![](../flappy-fly-swift-images/enable-pipe-physics.png)
 
 Then open *MainScene.ccb* and set the *Collision Type* for both ground nodes to *level* as well.
 
@@ -758,7 +746,7 @@ Yow switch to Xcode to implement increasing the score every time the player coll
 
 In Xcode create a new *Cocoa Touch Class* named *Goal* and set its language to Swift:
 
-![](flappy-fly-swift-images/new-swift-class-goal.png)
+![](../flappy-fly-swift-images/new-swift-class-goal.png)
 
 The initial contents of the *Goal.swift* file should be as follows:
 
@@ -803,7 +791,7 @@ In this project you can simply right-click the *FlappyFlyArtPack* folder in Spri
 
 Whether you use PNG or PVR as the sprite sheet format, you will observe a common "black line" artifact that can pretty much show up anywhere in tiled graphics but is surprisingly simple to fix. First, see the highlighted issue - you may have seen that somewhere, sometime before:
 
-![](flappy-fly-swift-images/black-line-artifact.png)
+![](../flappy-fly-swift-images/black-line-artifact.png)
 
 To fix this quickly, open *MainScene.swift* and navigate to the *update* method. Add the following code just below the lines that assign values to the *hero.position* and *gamePhysicsNode.position*:
 
