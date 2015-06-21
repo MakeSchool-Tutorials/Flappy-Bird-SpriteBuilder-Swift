@@ -5,7 +5,7 @@ slug: build-flappy-bird-swift
 
 **Learn to build Flappy Bird using Swift and Cocos2D!**
 
-![](https://static.makegameswith.us/gamernews_images/8CteKC7kcM/GamePreview.gif)
+![](./TutorialImages/finalProject.gif)
 
 * * *
 
@@ -433,45 +433,51 @@ If you run the game now, the ground will scroll endlessly as the bunny moves abo
 
 # Adding obstacles
 
-Now you will be adding obstacles and implement a mechanism to randomly create more obstacles as you fly along the level.
+Now you will be adding obstacles and implement a mechanism to randomly create more obstacles as you hop along the level.
 
 Go back to SpriteBuilder and create a new *CCB File* of type *Node* for the obstacles:
 
-![](https://static.makegameswith.us/gamernews_images/dvnDNIpW3N/Screen Shot 2014-02-10 at 18.39.07.png)
+![](./TutorialImages/SpriteBuilder_obstacleNode.png)
 
-You will construct the obstacles with two pipes, one at the top and one at the bottom and *CCNode* in between which will be used as a goal trigger - the player's score increases when colliding with the goal node.
+You will construct the obstacles with two carrots, one at the top and one at the bottom and *CCNode* in between which will be used as a goal trigger - the player's score increases when colliding with the goal node.
 
-Add *pipe_top.png* and *pipe_bottom.png* to your new *Obstacle.ccb.* Also add a CCNode between these two pipes. There are a lot of ways to set the positioning for this obstacle up, but it is easier if you follow the instructions.
+To the *root node*:
 
-The root node:
+*	add carrot_top.png
+*  add carrot_top.png
+*  add CCNode
+*  set *content size* to `(80, 568)`
+*  set *anchor point* to `(0, 0)`
 
-![](https://static.makegameswith.us/gamernews_images/IwHMm4hf4K/Screen Shot 2014-02-10 at 18.57.26.png)
+To *carrot_top*:
 
-Content size is (80, 568). The anchor point is (0,0).
+*	set *reference corner* to `Top-left`
+* 	set *X position* to `50%`
+*  set *Y position* to `128.0`
+*  set *anchor point* to `(0.5, 0)`
 
-The top pipe:
+To *carrot_bottom*:
 
-![](https://static.makegameswith.us/gamernews_images/pPNSScxZmn/Screen Shot 2014-02-10 at 18.59.39.png)
+*	set *reference corner* to `Top-left`
+* 	set *X position* to `50%`
+*  set *Y position* to `228.0`
+*  set *anchor point* to `(0.5, 1)`	
 
-The reference corner is top left. The **X position is 50% of the parent size** and Y is set to 128. The anchor point is (0.5, 0).
+To *CCNode*:
 
-The bottom pipe:
+*	set *reference corner* to `Top-left`
+* 	set *position* to `(22, 576)`
+*  set *anchor point* to `(0, 0)`
 
-![](https://static.makegameswith.us/gamernews_images/jCe5wmxDcW/Screen Shot 2014-02-10 at 19.02.02.png)
+Your obstacle should look something like this:
 
-The reference corner is top left. The **X position is 50% of the parent size** and Y is set to 228. The anchor point is (0.5, 1).
-
-The goal node position needn't be precise. Add a *Node* from the Node Library View to the Stage. This is what it should look like:
-
-![](https://static.makegameswith.us/gamernews_images/NwMztOGNZ5/Screen Shot 2014-02-10 at 19.03.33.png)
-
-The reference corner is top left. The position is set to (22, 576). The anchor point is left at its default (0, 0). Most importantly the goal node has to be stretched over both pipes. It's supposed to become a trigger area.
+![](./TutorialImages/SpriteBuilder_obstacle.png)
 
 It is important to get the pipe's positions right, to ensure that the obstacles look the same on an 3.5-inch and a 4-inch phone.
 
 You can test if you setup the obstacle correctly by adding an instance of *Obstacle.ccb* to the *MainScene.ccb* by dragging the *Obstacle.ccb* onto the *MainScene.ccb* stage. Be sure to save the *Obstacle.ccb* document because CCB instances (represented by *Sub File* nodes) will always use the state of a document when it was last saved, but won't show any (as of yet) unsaved modifications. The result should be similar to this one:
 
-![](https://static.makegameswith.us/gamernews_images/B7Q9bSw2XS/Screen Shot 2014-02-10 at 19.07.20.png)
+![](./TutorialImages/SpriteBuilder_obstacleCheck.png)
 
 Once you have successfully tested that the obstacle looks correct, remove it from *MainScene.ccb,* as you will write code to add obstacles.
 
@@ -479,7 +485,7 @@ Once you have successfully tested that the obstacle looks correct, remove it fro
 
 In this step you will create the obstacles from the *Obstacle.ccb* and add them to the game. 
 
-Open Xcode and add the following properties to *MainScene.swift* just below the most recently added *sinceTouch* property:
+Open Xcode and add the following properties to *MainScene.swift* right next to the other properties:
 
     var obstacles : [CCNode] = []
     let firstObstaclePosition : CGFloat = 280
@@ -516,7 +522,7 @@ This will be our next task: spawning an endless number of obstacles!
 
 ## Spawning Endless Obstacles
 
-You will now implement a mechanism that checks if an obstacle moved off the screen and spawns a new obstacle in place of this one. Alternatively, you can later try to re-use the obstacle that moved off-screen since loading resource files at runtime is quite slow - it's fine for this game but if you do that 10 to 100 times more often, that could become a performance issue.
+You will now implement a mechanism that checks if an obstacle moved off the screen and if so, spawns a new obstacle in place of this one. Alternatively, you can later try to re-use the obstacle that moved off-screen since loading resource files at runtime is quite slow - it's fine for this game but if you do that 10 to 100 times more often, that could become a performance issue.
 
 Add these lines to the end of your *update* method:
 
@@ -534,11 +540,11 @@ Add these lines to the end of your *update* method:
         }
     }
 
-The basics of this code should remind you of the ground looping we implemented previously. It checks which obstacles are off the screen and if so, removes that obstacle, then spawns a new obstacle. 
+The basics of this code should remind you of the ground looping we implemented previously. It checks whether obstacles are off the screen and if so, removes that obstacle, then spawns a new obstacle. 
 
-Note that we enumerate the *obstacles* array in reverse (backwards) so that we can legally remove and add objects at the end of the array while enumerating. More precisely: when enumerating an array in reverse it is legal to modify the contents of the array at indexes equal to or higher than the index that's currently being processed. This is a neat trick to avoid having to fill a "to be deleted" array with another for loop that removes the items in the "to be deleted" list for good.
+Note that we enumerate the *obstacles* array in reverse (backwards) so that we can legally remove and add objects at the end of the array while enumerating. More precisely: when enumerating an array in reverse, it is legal to modify the contents of the array at indexes equal to or higher than the index that's currently being processed. This is a neat trick to avoid having to fill a "to be deleted" array with another for loop that removes the items in the "to be deleted" list for good.
 
-Now run your game. You should see an endless amount of scrolling obstacles! All at the same height but still, you are getting closer to completing *Flappy Fly Swift*!
+Now run your game. You should see an endless amount of scrolling obstacles! They're still all at the same height, but you're getting closer to completing *Hoppy Bunny Swift*!
 
 ## Generating randomized obstacles
 
@@ -546,45 +552,45 @@ The next challenge you are going to tackle is generating randomized obstacles. T
 
 First, open *Obstacle.ccb* in SpriteBuilder, select the root CCNode and assign it the custom class *Obstacle*:
 
-![](https://static.makegameswith.us/gamernews_images/EKKV0s7OHW/Screen Shot 2014-02-10 at 19.37.24.png)
+![](./TutorialImages/SpriteBuilder_obstacleClassConnect.png)
 
-Also set up a *doc root var* code connection for the top and the bottom pipe sprites in the *Obstacle.ccb*. Enter in the *doc root var* field *topPipe* for the pipe\_top sprite and *bottomPipe* for the pipe\_bottom sprite.
+Also set up a *doc root var* code connection for the top and the bottom pipe sprites in the *Obstacle.ccb*. Enter in the *doc root var* field *topCarrot* for the carrot\_top sprite and *bottomCarrot* for the carrot\_bottom sprite.
 
-Once you have setup everything create a new Swift class named *Obstacle* in Xcode.
+Once you have setup everything, publish and create a new Swift class named *Obstacle* in Xcode.
 
-Here's the complete content of the *Obstacle.swift* file at once. Add the following code to *Obstacle.swift*:
+Here's the complete content of the *Obstacle.swift* file. Add the following code to *Obstacle.swift*:
 
 	import Foundation
 
 	class Obstacle : CCNode {
-		weak var topPipe : CCNode!
-		weak var bottomPipe : CCNode!
-
-		let topPipeMinimumPositionY : CGFloat = 128
-		let bottomPipeMaximumPositionY : CGFloat = 440
-		let pipeDistance : CGFloat = 142	   
-		    
+		weak var topCarrot : CCNode!
+		weak var bottomCarrot : CCNode!
+  
+		let topCarrotMinimumPositionY : CGFloat = 128
+		let bottomCarrotMaximumPositionY : CGFloat = 440
+		let carrotDistance : CGFloat = 142
+  
 		func setupRandomPosition() {
-			let randomPrecision : UInt32 = 100
-			let random = CGFloat(arc4random_uniform(randomPrecision)) / CGFloat(randomPrecision)
-			let range = bottomPipeMaximumPositionY - pipeDistance - topPipeMinimumPositionY
-			topPipe.position = ccp(topPipe.position.x, topPipeMinimumPositionY + (random * range));
-			bottomPipe.position = ccp(bottomPipe.position.x, topPipe.position.y + pipeDistance);
+      let randomPrecision : UInt32 = 100
+      let random = CGFloat(arc4random_uniform(randomPrecision)) / CGFloat(randomPrecision)
+      let range = bottomCarrotMaximumPositionY - carrotDistance - topCarrotMinimumPositionY
+      topCarrot.position = ccp(topCarrot.position.x, topCarrotMinimumPositionY + (random * range));
+      bottomCarrot.position = ccp(bottomCarrot.position.x, topCarrot.position.y + carrotDistance);
 		}
-	}
+}
 
 
 What is happening here?
 
-At the top of the class you define the pipe code connections and a couple of constants. These constants describe the minimum and maximum positions for the top and bottom pipes. 
+At the top of the class you define the carrot code connections and a couple of constants. These constants describe the minimum and maximum positions for the top and bottom carrots. 
 
-The values were chosen in such a way that every pipe at the top reaches at least 30 points into the screen for a 3.5-inch iPhone. This means on an iPhone 4S or older the top obstacle will always be clearly visible. The iPhone 5 and 5s will see a larger portion of the top pipe, but this will not change anything about the gameplay. Likewise, the maximum value for the bottom pipe is defined such that a pipe always sticks at least 30 points out of the ground to make it clearly visible.
+The values were chosen in such a way that every carrot at the top reaches at least 30 points into the screen for a 3.5-inch iPhone. This means on an iPhone 4S or older the top obstacle will always be clearly visible. The iPhone 5 and 5s will see a larger portion of the top carrot, but this will not change anything about the gameplay. Likewise, the maximum value for the bottom carrot is defined such that a carrot always sticks at least 30 points out of the ground to make it clearly visible.
 
-In addition you defined a *pipeDistance* that describes how large the opening gap between the pipes should be.
+In addition, you defined a *carrotDistance* that describes how large the opening gap between the carrots should be.
 
 Next the method *setupRandomPosition* uses the defined border values to calculate a random range. Since *arc4random* uses and returns *UInt32* it's important to generate a high enough number (here: *randomPrecision*), then divide by that same number to get a floating point value in the range 0.00 to 1.00.
 
-The random value is used to define which portion of the possible pipe position Y range will be used. It uses the result to position the top pipe and positions the bottom pipe at the desired distances.
+The random value is used to define which portion of the possible carrot position Y range will be used. It uses the result to position the top carrot and positions the bottom carrot at the desired distances.
 
 You can now use this method to generate random obstacles in our game. In *MainScene.swift* change the *spawnNewObstacle* method used to load an *Obstacle.ccb* document. All you really need to change is the CCBReader line to declare the value returned and assigned to the *obstacle*  constant as being of class *Obstacle*, then calling the *setupRandomPosition* method after assigning the initial position. The lines you need to replace respectively add are marked with appended comments:
 
@@ -601,19 +607,19 @@ You can now use this method to generate random obstacles in our game. In *MainSc
         obstacles.append(obstacle)
     }
 
-In the above code the return value of *CCBReader.load()* is cast to *as Obstacle* so that we can treat the loaded *Obstacle.ccb* as an instance of the *Obstacle* class. Additionally the new *setupRandomPosition* method you just implemented is called after loading an obstacle.
+In the above code the return value of *CCBReader.load()* is cast to *as! Obstacle* so that we can treat the loaded *Obstacle.ccb* as an instance of the *Obstacle* class. Additionally, the new *setupRandomPosition* method you just implemented is called after loading an obstacle.
 
 If you run the game now you should see random obstacles occurring! Before you move on to the last major step - implementing collisions - you are going to fix a small issue with the drawing order.
 
 # Fixing the drawing order
 
-Because you add the pipes in code, they are all drawn in front of the ground. By default Cocos2D renders the elements in the same order they were added as children, so the node(s) added last will be drawn on top of their sibling nodes. 
+Because you add the carrots in code, they are all drawn in front of the ground. By default Cocos2D renders the elements in the same order they were added as children, so the node(s) added last will be drawn on top of their sibling nodes. 
 
 While you can use the zOrder property to fix that, it's a lot easier to use "layers". Basically all you need to create a layer is to add another node (acting as a "layer") in SpriteBuilder at the correct position in the hierarchy. Then add all objects that should be drawn in the same order to that "layer" node.
 
 Open *MainScene.ccb* in SpriteBuilder and drag a *Node* from the Node Library View onto the CCPhysicsNode. Drag and move the newly added node so that it is the first node after CCPhysicsNode, and you may want to rename it to "obstacles layer":
 
-![](flappy-fly-swift-images/spritebuilder-mainscene-obstacles-layer.png)
+![](./TutorialImages/SpriteBuilder_obstacleLayer.png)
 
 Then select that *obstacles layer* node and set up a code connection. In the *doc root var* field enter *obstaclesLayer*.
 
@@ -621,7 +627,7 @@ Back in Xcode, add the following property to the end of the properties list in t
 
     weak var obstaclesLayer : CCNode!
 
-Finally, update the *spawnNewObstacle* method so that new obstacles aren't added to the *physicsNode* anymore but rather the new *obstaclesLayer* (I've omitted some code, and commented the line you need to replace):
+Finally, update the *spawnNewObstacle* method so that new obstacles aren't added to the *gamePhysicsNode* anymore, but rather the new *obstaclesLayer* (I've omitted some code, and commented the line you need to replace):
 
     let obstacle = CCBReader.load("Obstacle") as! Obstacle
     obstacle.position = ccp(prevObstaclePos + distanceBetweenObstacles, 0)
@@ -631,32 +637,30 @@ Finally, update the *spawnNewObstacle* method so that new obstacles aren't added
 
 Now you can run the App and see the pipes drawn behind the ground:
 
-![](https://static.makegameswith.us/gamernews_images/YekaG7W71H/iOS Simulator Screen shot 10 Feb 2014 20.44.05.png)
+![](./TutorialImages/SpriteBuilder_obstacleDrawOrder.gif)
 
 # The final steps: setting up collisions
 
 You are going to set up collision handling so that your game finally becomes as frustrating as *Flappy Bird*. Any good game needs to be unforgiving and frustrating, right?
 
-First, open *Obstacle.ccb* in SpriteBuilder in order to enable physics for the pipes. Select one of the two pipes, switch to the Item Physics tab and check the *Enable Physics* checkbox. Change the body type to *Static* and enter *level* in the *Collision Type* field, as shown in the screenshot below. Do this for both pipes.
+First, open *Obstacle.ccb* in SpriteBuilder in order to enable physics for the carrots. Select one of the two carrots, switch to the Item Physics tab and check the *Enable Physics* checkbox. Change the body type to *Static* and enter *level* in the *Collision Type* field, as shown in the screenshot below. Do this for both pipes.
 
-![](flappy-fly-swift-images/enable-pipe-physics.png)
+![](./TutorialImages/SpriteBuilder_carrotPhysics.png)
 
 Then open *MainScene.ccb* and set the *Collision Type* for both ground nodes to *level* as well.
 
-Lastly, open *Hero.ccb* and select the CCSprite root node. Check the *Enable Physics* checkbox, set the body type to *Dynamic* and enter *hero* in the *Collision Type* field. Also uncheck both *Affected by Gravity* and *Allows Rotation* checkboxes.
+Lastly, open *Hero.ccb*, select the CCSprite root node, and enter *hero* in the *Collision Type* field.
 
-**Note:** In SpriteBuilder v1.3 and earlier this part can not be completed as you can't set the body type to *Dynamic* without losing the existing sprite frame animation.
+You set the collisionType to "level" to implement a collision callback method later whenever the "hero" collision type collides with a deadly "level" object (obstacles and the ground). Feel free to optimize the collision shapes for the carrots and the hero - they simply default to rectangular shapes, which will make the collision behavior somewhat unforgiving.
 
-You set the collisionType to "level" to implement a collision callback method later whenever the "hero" collision type collides with a deadly "level" object (obstacles and the ground). Feel free to optimize the collision shapes for the pipes and the hero, they simply default to rectangular shapes otherwise which will make the collision behavior somewhat unforgiving.
-
-But first, open *Obstacle.swift* in Xcode and add the *didLoadFromCCB* method to the *Obstacle* class with the following two lines:
+Open *Obstacle.swift* in Xcode and add the *didLoadFromCCB* method to the *Obstacle* class with the following two lines:
 
     func didLoadFromCCB() {
-        topPipe.physicsBody.sensor = true
-        bottomPipe.physicsBody.sensor = true
+      topCarrot.physicsBody.sensor = true
+      bottomCarrot.physicsBody.sensor = true
     }
 
-This changes the pipe's physics bodies to sensors. Setting the *sensor* value to *true* tells Chipmunk no actual collision feedback should be calculated, meaning the collision callback method does run but sensors will always allow the colliding objects to pass through the collision. 
+This changes the carrot's physics bodies to sensors. Setting the *sensor* value to *true* tells Chipmunk no actual collision feedback should be calculated, meaning the collision callback method does run but sensors will always allow the colliding objects to pass through the collision. 
 
 You don't need an actual collision here because just touching an obstacle means instant death, just like in that other game ... what's it called ... ah, yes: *Flappy Bird*.
 
@@ -677,23 +681,23 @@ Finally, you can implement a collision handler method. As parameter names you ha
 
 The method above will be called whenever a object with collision type *hero* collides with an object of collision type *level*. 
 
-Publish and run the app in Xcode. Any time you collide with the ground or a pipe the *TODO* message will be printed to the console.
+Publish and run the app in XCode. Any time you collide with the ground or a carrot, the *TODO* message will be printed to the console.
 
 ## Implementing "Game Over"
 
 Instead of only showing a message in the console, you surely want to implement a game over situation:
 
-*   Fly falls to ground
+*   Bunny falls to ground
 *   Screen rumbles
 *   Restart button appears
 *   Game restarts when restart button is pressed
 
 First, add a Button in SpriteBuilder to the *MainScene.ccb* document. Center the button by setting its position to 50%x50%, change its *Title* to *Restart* and set it to be invisible by unchecking the *Visible* property highlighted below:
 
-![](https://static.makegameswith.us/gamernews_images/DAp6ju8Yc2/Screen Shot 2014-02-10 at 22.43.53.png)
+![](./TutorialImages/SpriteBuilder_restartButton.png)
 
 Set up a code connection for the button by entering *restartButton* in the *doc root var* field. Also enter *restart* in the *Selector* field, this will be the method that runs whenever the button is pressed.
-![](https://static.makegameswith.us/gamernews_images/KSf2oVRrVg/Screen Shot 2014-02-10 at 22.43.41.png)
+![](./TutorialImages/SpriteBuilder_restartCodeConnect.png)
 
 You will make the button visible once the game over situation occurs. Now switch to Xcode and open *MainScene.swift*, then add this property at the top of the class:
 
@@ -744,7 +748,7 @@ Now add the new *triggerGameOver* method to *MainScene.m*, ideally add it next t
 Then call this new method from the collision handler, instead of just making the restart button visible:
 
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, hero: CCNode!, level: CCNode!) -> Bool {
-    	restart.visible = true
+    	restartButton.visible = true
         triggerGameOver()
         return true
     }
@@ -765,34 +769,27 @@ You should run your app again and test the game over sequence. There is only one
 
 Now that the player can die, you should implement the very last step: scoring points.
 
-First create a *LabelTTF* in *MainScene.ccb* to display the current score:
+First create a *LabelTTF* in *MainScene.ccb* to display the current score. Make the label any font you'd like. Display it in the middle of the screen near the top. Add a *doc root var* code connection to the label by entering *scoreLabel* in the corresponding field. It should look approximately like this when you're done:
 
-![](https://static.makegameswith.us/gamernews_images/VjQs791bhq/Screen Shot 2014-02-10 at 23.27.05.png)
-
-Add a *doc root var* code connection to the label by entering *scoreLabel* in the corresponding field.
+![](./TutorialImages/SpriteBuilder_scoreLabel.png)
 
 Now open *Obstacle.ccb* to enable physics on the *goal* node between the pipes. Make it a *Static* body and change its *Collision Type* to *goal*. Then switch to the Code Connections tab and set its *Custom Class* to *Goal*:
 
-![](https://static.makegameswith.us/gamernews_images/ic0IcxMDKp/Screen Shot 2014-02-10 at 23.32.56.png)
+![](./TutorialImages/SpriteBuilder_goal.png)
 
 Yow switch to Xcode to implement increasing the score every time the player collides with one of the goals, which you take as the assumption that the player has passed (or at least reached) those pipes.
 
-In Xcode create a new *Cocoa Touch Class* named *Goal* and set its language to Swift:
-
-![](flappy-fly-swift-images/new-swift-class-goal.png)
-
-The initial contents of the *Goal.swift* file should be as follows:
+Create a new Swift file and call it *Goal*. The initial contents of the *Goal.swift* file should be as follows:
 
 	import Foundation
 
-	class Goal: CCNode 
-	{
+	class Goal: CCNode {
 	    func didLoadFromCCB() {
         	physicsBody.sensor = true;
     	}
 	}
 
-So basically you want to prevent the goal from stopping the player by making it a sensor body. This property can't (yet) be set within SpriteBuilder, so you have to do it in code. 
+So basically, you want to prevent the goal from stopping the player by making it a sensor body. This property can't (yet) be set within SpriteBuilder, so you have to do it in code. 
 
 Of course you could also use the collision categories and masks, but that would be more complex and error-prone to set up and use up at least one category - and there can be at most 32 unique category strings. Alternatively, you could simply `return false` from the `ccPhysicsCollisionBegin` method but that should be a last resort option, since the Chipmunk manual recommends to use sensor or category filters first, as this will avoid the overhead of processing the collision and running the collision callback method.
 
@@ -820,11 +817,11 @@ Congratulations! Now you should see the complete game previewed at the beginning
 
 Moving forward with any decent game, you will want to use Sprite Sheets (better known as Texture Atlas) for your image resources.
 
-In this project you can simply right-click the *FlappyFlyArtPack* folder in SpriteBuilder, then select *Make Smart Sprite Sheet* to convert it to a sprite sheet. This will combine all images to a single texture, conserving precious runtime memory while also speeding up drawing of sprites using those images.
+In this project you can simply right-click the *HoppyBunnyArtPack* folder in SpriteBuilder, then select *Make Smart Sprite Sheet* to convert it to a sprite sheet. This will combine all images to a single texture, conserving precious runtime memory while also speeding up drawing of sprites using those images.
 
 Whether you use PNG or PVR as the sprite sheet format, you will observe a common "black line" artifact that can pretty much show up anywhere in tiled graphics but is surprisingly simple to fix. First, see the highlighted issue - you may have seen that somewhere, sometime before:
 
-![](flappy-fly-swift-images/black-line-artifact.png)
+![](./TutorialImages/blackLine.png)
 
 To fix this quickly, open *MainScene.swift* and navigate to the *update* method. Add the following code just below the lines that assign values to the *hero.position* and *gamePhysicsNode.position*:
 
