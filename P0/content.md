@@ -249,7 +249,7 @@ Then add another method to *MainScene.swift* which applies an impulse to the bun
 
 <!--Perhaps should be more concise-->
 
-You'll notice the keyword `override` appears before `func` in the declaration of this method. An important concept in object-oriented programming is the idea of inheritance - that is, a child class inherits methods and properties from their parent class. *MainScene.swift* is a child of *CCNode*, which is indicated by the line `MainScene: CCNode`. *CCNode* has a `touchBegan(...)` method, so we must use the `override` keyword to indicate that our child class will override its parent's implementation of `touchBegain(...)`.
+You'll notice the keyword `override` appears before `func` in the declaration of this method. An important concept in object-oriented programming is the idea of inheritance - that is, a child class inherits methods and properties from its parent class. *MainScene.swift* is a child of *CCNode*, which is indicated by the line `MainScene: CCNode`. *CCNode* has a `touchBegan(...)` method, so we must use the `override` keyword to indicate that our child class will override its parent's implementation of `touchBegain(...)`.
 
 **Note:** For now it is best to use the physics values provided in this tutorial. Once you completed the tutorial you can spend time tweaking the values.
 
@@ -257,7 +257,7 @@ Run the game again to verify that the bunny can be controlled by touches.
 
 ## Adding a Speed Limit
 
-As you may have noticed while testing the touch implementation: when you touch the screen repeatedly in short intervals, the impulses add up and the bunny shoots out of the top edge of the screen, gone for seconds or even (seemingly) forever. As in most physics games, you will have to add some tweaking variables. For this game, you will want to limit the vertical upward velocity. The best way to limit the bunny's speed is via the *update* method, which is called every frame in a Cocos2D object. 
+As you may have noticed while testing the touch implementation, when you touch the screen repeatedly in short intervals, the impulses add up and the bunny shoots out of the top edge of the screen, gone for seconds or even (seemingly) forever. To make the game playable, you will want to limit the vertical upward velocity. The best way to limit the bunny's speed is via the *update* method, which is called every frame in a Cocos2D object. 
 
 Add the following method to *MainScene.swift* to limit the bunny's vertical velocity:
 
@@ -268,19 +268,19 @@ Add the following method to *MainScene.swift* to limit the bunny's vertical velo
 
 Clamping means testing and optionally changing a given value so that it never exceeds the specified value range. 
 
-Using this method, you are limiting the upwards velocity to 200 at most. By using the negative *-Float(CGFloat.max)* value as the minimum value, you avoid artificially limiting the falling speed. You don't need to set the x velocity because you will be setting the x *position* manually, so modifying the x velocity here would have no effect.
+In this method, you are limiting the upwards velocity to 200 at most. By using the negative *-Float(CGFloat.max)* value as the minimum value, you avoid artificially limiting the falling speed. You don't need to set the x velocity because you will be setting the x *position* manually, so modifying the x velocity here would have no effect.
 
 ## Make the bunny rotate
 
-One of the nice details of Flappy Bird is the way the bird rotates. When the player does not touch the screen for a little while the bird turns towards the ground, touching the screen makes the bird turn upwards again. You are going to imitate this behavior in Hoppy Bunny!
+One of the nice details of Flappy Bird is the way the bird rotates. When the player does not touch the screen for a little while, the bird turns towards the ground. Touching the screen makes the bird turn upwards again. You are going to imitate this behavior in Hoppy Bunny!
 
 There are a couple of things you will need to do to achieve this:
 
-*   On touch turn the fly upwards
-*   If no touch occurred for a while, turn the fly downwards
-*   Limit the rotation between slightly up and 90 degrees down (just as in Flappy Birds)
+*   On touch, turn the bunny upwards
+*   If no touch occurred for a while, turn the bunny downwards
+*   Limit the rotation between slightly up and 90 degrees down (just like Flappy Bird)
 
-First step: add a property to keep track of the time since the last touch. Add this declaration just below the code connection:
+The first step is to add a property to keep track of the time since the last touch. Add this declaration just below the code connection you made:
 
     var sinceTouch : CCTime = 0
 
@@ -321,131 +321,115 @@ Hopping up and down is fun, but it would be even better if our bunny was going s
 
 # Scrolling the World
 
-You are going to begin by moving the fly with a constant speed while updating the positions of movable objects. 
+You are going to begin by moving the bunny with a constant speed while updating the positions of movable objects. 
 
-## Moving the Fly
+## Moving the Bunny
 
-First, create a code connection for the fly so that you can manipulate the velocity in code by entering *hero* in the *doc root var* field:
+Publish your Spritebuilder project and open XCode. We need to define a new member variable, which we will call `scrollSpeed`. Add the following line to *MainScene.swift* near the other member variables of the class:
+	
+	var scrollSpeed : CGFloat = 80
+	
+Now you need to use that variable to manipulate the scroll speed of your bunny! Add the following line to the `update(...)` method in *MainScene.swift*:
 
-![](https://static.makegameswith.us/gamernews_images/GJfqUcoo1R/Screen Shot 2014-02-10 at 16.38.35.png)
-
-Now open Xcode, you are going to write (or copy & paste) some Swift code! Replace the entire content of the *MainScene.swift* file with this code:
-
-	import Foundation
-
-	class MainScene: CCNode {
-	   	var scrollSpeed : CGFloat = 80
-    	weak var hero : CCSprite!
-
-	    override func update(delta: CCTime) {
-        	hero.position = ccp(hero.position.x + scrollSpeed * CGFloat(delta), hero.position.y)
-    	}
-	}
-
-This code adds a property for the code connection *hero*. It also defines a constant for the scroll speed because you will reference it from various points in the code. Lastly, the update method (which is automatically called every frame by Cocos2D) uses *scrollSpeed* to modify the x position of the fly. 
+	hero.position = ccp(hero.position.x + scrollSpeed * CGFloat(delta), hero.position.y)
+	
+<!--General coding lesson-->
+Defining a member variable for the scroll speed rather than simply defining the hero's position to be increased by *80* * *delta* every time is an important programming practice. Variable names offer us clarity - if someone else looks at your code, or even if you revisit it next week, it may not be clear what *80* affects. Explicitly using the variable `scrollSpeed` alleviates this problem. They also offer us flexibility. Imagine we were writing a larger program which used `scrollSpeed` in several places and instead of using a variable, we used *80* every time. What happens if we decide our scroll speed is a little slow? We will need to visit every place we wrote *80* and change it. It's not hard to understand how this could quickly get messy and inefficient. 
 
 By multiplying the scroll speed with *delta* time you ensure that the fly always moves at the same speed, independent of the frame rate. 
 
-**Caution:** Setting the position of a node with a physics body manually in the update method is not the best use of the physics engine, since a node with a physics body is supposed to have its position updated by the body. But in this tutorial the focus is on cloning Flappy Birds and not on physics best practices.
+**Caution:** Setting the position of a node with a physics body manually in the update method is generally not the best use of the physics engine, since a node with a physics body is supposed to have its position updated by the body. However, in this game, collisions are not resolved - they are merely used to sense the player (1) passing through gates and (2) hitting the obstacles.
 
-Once you added this code you can run your App. You should see the fly falling down and slowly grinding over the floor until it leaves the right edge of the screen.
+Once you added this code, you can run your App. You should see the bunny slowly leaving the screen.
 
-You're right; as a next step you should definitely set up some kind of "camera" that follows the fly.
+You're right; as a next step you should definitely set up some kind of "camera" that follows the bunny.
 
 ## Setting up a "Camera"
 
-Cocos2D does not have the concept of a camera - though *CCActionFollow* comes close to it with Cocos2D v4 being expected to make great improvements in this area. But for now you will have to implement the camera mechanism by yourself - with our help, of course - and it's actually rather straightforward.
+Cocos2D does not have the concept of a camera - though *CCActionFollow* comes close to it with Cocos2D v4 being expected to make great improvements in this area. For now, you will have to implement the camera mechanism by yourself - with our help, of course - and it's actually rather straightforward.
 
-You can scroll the view by moving the complete content of the game to the left. To the player this looks the same as if the camera is moving to the right - in the end all movement is relative.
+You can scroll the view by moving the complete content of the game to the left. To the player, this looks the same as if the camera is moving to the right - in the end, all movement is relative.
 
-Just as in Flappy Bird the background images will be all static. The only things scrolling will be the obstacles and the ground. To implement the camera, you just need to move the *Physics Node* to the left - obstacles, ground and hero are children of the physics node and will move in relation to their physics node parent.
+Just as in Flappy Bird, the background images will be all static. The only things scrolling will be the obstacles and the ground. To implement the camera, you just need to move the *Physics Node* to the left - obstacles, ground and hero are children of the physics node and will move in relation to their physics node parent.
 
-To scroll the physics node in code you need to setup a code connection for the physics node. Select the physics node, then enter *gamePhysicsNode* in the *doc root var* field:
+To scroll the physics node in code, you need to setup a code connection for the physics node. Select the physics node, then enter *gamePhysicsNode* in the *doc root var* field:
 
-![](https://static.makegameswith.us/gamernews_images/WeN7ErSVDT/Screen Shot 2014-02-10 at 17.03.04.png)
+![](./TutorialImages/SpriteBuilder_connectPhysics.png)
 
 Now switch to Xcode and create a new property called *gamePhysicsNode* for this code connection. Add the following line to *MainScene.swift* just below the line that declares the *hero* property:
 
     weak var gamePhysicsNode : CCPhysicsNode!
 
-Next you are going to add a second line to your update method that moves the physics node:
+Next, you are going to add a line to your update method immediately after updating the hero's position which moves the physics node:
 
-    override func update(delta: CCTime) {
-        hero.position = ccp(hero.position.x + scrollSpeed * CGFloat(delta), hero.position.y)
-        gamePhysicsNode.position = ccp(gamePhysicsNode.position.x - scrollSpeed * CGFloat(delta), gamePhysicsNode.position.y)
-    }
+    hero.position = ccp(hero.position.x + scrollSpeed * CGFloat(delta), hero.position.y)
+    gamePhysicsNode.position = ccp(gamePhysicsNode.position.x - scrollSpeed * CGFloat(delta), gamePhysicsNode.position.y)
 
-The update method should now contain two lines; one to move the fly and the other to scroll the physics node.
+Test out your game again!
 
-You should test out your game again.
-
-Yay, the scrolling works! However, when the game scrolls too far to the right the ground disappears and the fly drops into nirvana. The problem is that by moving the complete physics world to the left, you are also moving the ground to the left but it is only wide enough to fill the width of one screen.
+Yay, the scrolling works! However, when the game scrolls too far to the right the ground disappears and the bunny drops into nirvana. The problem is that by moving the complete physics world to the left, you are also moving the ground to the left but it is only wide enough to fill the width of one screen.
 
 ## Loop the Ground
 
-You can make the ground loop by adding a second ground sprite and implement an endless scrolling using both ground sprites. 
+You can make the ground loop by adding a second ground sprite and implementing an endless scrolling using both ground sprites. 
 
-When a ground sprite leaves the left edge you'll move it to the right edge of the screen to make the ground seem repeating endlessly.
+When a ground sprite leaves the left edge you'll move it to the right edge of the screen to make the ground seem endlessly repeating.
 
 ### More Ground, Please
 
-The first step will be adding a second ground sprite to the *MainScene.ccb*. It will help to turn off the iPhone frame by changing the *Stage Border* to *None* for the moment:
-
-![](https://static.makegameswith.us/gamernews_images/qyDSCLgMiu/Screen Shot 2014-02-10 at 17.14.51.png)
+The first step will be adding a second ground sprite to the *MainScene.ccb*. It will help to turn off the iPhone frame by changing the *Stage Border* to *None* for the moment. Do this by selecting Document -> Stage Border -> None.
 
 The easiest way to create another ground sprite is to duplicate the existing one via *Edit => Copy* and *Edit => Paste*. This has the advantage that you can make all settings below to one sprite, then copy it and only apply properties that are different. Alternatively you can just add a second ground image to the stage.
 
-Drag the duplicated ground sprite below the *CCPhysicsNode*, if necessary. Set its position to (348,12). *348* is the width of the ground image, *12* is the y-Position of the first ground sprite. **Also set the anchor point to (0, 0.5), the same as the first ground sprite**. This way the two ground sprites will line up nicely. 
+![](./TutorialImages/SpriteBuilder_documentBorder.png)
 
-Now there are a couple of important steps to implement:
+Drag the duplicated ground sprite below the *CCPhysicsNode*, if necessary. Set its position to (423,12). *423* is the width of the ground image, *12* is the y-Position of the first ground sprite. **Also set the anchor point to (0, 0.5), the same as the first ground sprite**. This way the two ground sprites will line up nicely.
+
+There are a couple of important steps to implement:
 
 *   Ensure both ground sprites have physics enabled, and are set to be *Static* physics bodies
 *   Create a *doc root var* code connection for both ground sprites:
 	*   Name the first var *ground1*
 	*   Name the other var *ground2*
 
-If you followed all the steps closely you are now ready to go back to Xcode.
+If you followed all the steps closely, you are now ready to go back to Xcode... But don't forget to publish your project!
 
 ### Coding the Ground
 
-In code you will have to add *ground1* and *ground2* properties for both ground sprites to complete the code connection. 
+In code, you will have to add *ground1* and *ground2* properties for both ground sprites to complete the code connection. 
 
 You should also add an array that will contain both of the ground sprites for easier processing later on. Insert the following code to the *MainScene* class, between the *gamePhysicsNode* var declaration and the *update* function:
 
     weak var ground1 : CCSprite!
     weak var ground2 : CCSprite!
-    var grounds : [CCSprite] = []  // initializes an empty array
+    var grounds = [CCSprite]()  // initializes an empty array
 
     func didLoadFromCCB() {
+    	userInteractionEnabled = true
         grounds.append(ground1)
         grounds.append(ground2)
     }
     
-In *didLoadFromCCB* you assign the two ground sprites to the *grounds* array to be able to loop through the ground sprites instead of having to juggle with the two identifiers *ground1* and *ground2*. The array is initialized when declared by simply assigning it an empty array. This avoids having to implement the *init* function.
+In *didLoadFromCCB*, you assign the two ground sprites to the *grounds* array to be able to loop through the ground sprites instead of having to juggle with the two identifiers *ground1* and *ground2*. The array is initialized when declared by simply assigning it an empty array. This avoids having to implement the *init* function.
     
-In the update method you will perform a check for each ground sprite to see if it has moved off the screen, and if so, it will be moved to the far right and next to the ground sprite that's currently still visible on the screen. 
+In the update method, you will perform a check for each ground sprite to see if it has moved off the screen, and if so, it will be moved to the far right and next to the ground sprite that's currently still visible on the screen. 
 
-Change the update method in *MainScene.swift* so that it looks like this:
+Add the following chunk of code to the bottom of the `update(...)` method in *MainScene.swift*:
 
-    override func update(delta: CCTime) {
-        hero.position = ccp(hero.position.x + scrollSpeed * CGFloat(delta), hero.position.y)
-        gamePhysicsNode.position = ccp(gamePhysicsNode.position.x - scrollSpeed * CGFloat(delta), gamePhysicsNode.position.y)
-        
-        // loop the ground whenever a ground image was moved entirely outside the screen
-        for ground in grounds {
-            let groundWorldPosition = gamePhysicsNode.convertToWorldSpace(ground.position)
-            let groundScreenPosition = convertToNodeSpace(groundWorldPosition)
-            if groundScreenPosition.x <= (-ground.contentSize.width) {
+    // loop the ground whenever a ground image was moved entirely outside the screen
+    for ground in grounds {
+        let groundWorldPosition = gamePhysicsNode.convertToWorldSpace(ground.position)
+        let groundScreenPosition = convertToNodeSpace(groundWorldPosition)
+        if groundScreenPosition.x <= (-ground.contentSize.width) {
                 ground.position = ccp(ground.position.x + ground.contentSize.width * 2, ground.position.y)
-            }
         }
     }
 
-This code retrieves the current screen position for each ground sprite. Since the ground sprites aren't children of the *MainScene* (*self*) you need to get the world position of the ground sprites first, then use the *convertToNodeSpace* method to convert the position in *MainScene* (*self*) coordinate space. 
+This code retrieves the current screen position for each ground sprite. Since the ground sprites aren't children of the *MainScene* (*self*), you need to get the world position of the ground sprites first, then use the *convertToNodeSpace* method to convert the position in *MainScene* (*self*) coordinate space. 
 
-Once you have the position you check if a ground sprite is off the screen. If that is the case, you move it to the right of the other ground sprite. This creates the ground's endless repeating effect.
+Once you have the position, you check if a ground sprite is off the screen. If that is the case, you move it to the right of the other ground sprite. This creates the ground's endless repeating effect.
 
-If you run the game now, the ground will scroll endlessly as the fly moves about.
+If you run the game now, the ground will scroll endlessly as the bunny moves about.
 
 # Adding obstacles
 
