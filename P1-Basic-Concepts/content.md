@@ -15,6 +15,8 @@ We will implement the game as follows:
 
 #Create a new project
 
+If you haven't already, it's time to make a SpriteBuilder project for Hoppy Bunny! If you did this in the *Getting started with SpriteBuilder and Cocos2D in Swift* tutorial, then move on to *Adding artwork*.
+
 > [action]
 > The first step is to create a new SpriteBuilder project by opening SpriteBuilder and selecting `File > New > Project`. You need to select `Swift` as the *Primary Language* in the *New File* dialog as highlighted below:
 >
