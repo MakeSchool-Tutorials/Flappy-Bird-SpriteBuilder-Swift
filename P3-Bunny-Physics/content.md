@@ -5,7 +5,7 @@ slug: bunny-physics
 
 Next, you'll enable physics on the bunny and add a physics node to the scene.
 
-#Add the physics node
+##Add the physics node
 
 Because the *Hoppy Bunny Swift* game uses physics, you need to add a *CCPhysicsNode*. 
 
@@ -55,7 +55,7 @@ Like the ground's position, the crystals are being positioned where we think the
 
 You are ready to publish your project and run the App from Xcode! When you run your project, you should see the bunny slowly sailing down and coming to a rest on the ground:
 
-![](../Tutorial-Images/Xcode_bunnyFalling.gif)
+![](../Tutorial-Images/XCode_bunnyFalling.gif)
 
 > [info]
 > Remember, to open your project in Xcode, select File -> Open Project in Xcode. While in Xcode, you can run your project by going selecting Product -> Run.
