@@ -54,7 +54,7 @@ Our goal is to have our bunny hop every time we touch the screen.
 >            hero.physicsBody.applyImpulse(ccp(0, 400))
 >        }
 
-You'll notice the keyword `override` appears before `func` in the declaration of this method. An important concept in object-oriented programming is the idea of inheritance - that is, a child class inherits methods and properties from its parent class. *MainScene.swift* is a child of *CCNode*, which is indicated by the line `MainScene: CCNode`. *CCNode* has a `touchBegan(...)` method, so we must use the `override` keyword to indicate that our child class will override its parent's implementation of `touchBegain(...)`.
+You'll notice the keyword `override` appears before `func` in the declaration of this method. An important concept in object-oriented programming is the idea of inheritance - that is, a child class inherits methods and properties from its parent class. *MainScene.swift* is a child of *CCNode*, which is indicated by the line `MainScene: CCNode`. *CCNode* has a `touchBegan(...)` method, so we must use the `override` keyword to indicate that our child class will override its parent's implementation of `touchBegan(...)`.
 
 > [info]
 > For now it is best to use the physics values provided in this tutorial. Once you completed the tutorial you can spend time tweaking the values.
