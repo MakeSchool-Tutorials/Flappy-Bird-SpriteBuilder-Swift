@@ -1,23 +1,15 @@
 ---
-title: Learn to build Flappy Bird using Swift!
-slug: build-flappy-bird-swift
----            
+title: Getting started with Hoppy Bunny!
+slug: build-hoppy-bunny-swift
+---
 
-**Learn to build Flappy Bird using Swift and Cocos2D!**
+In this tutorial we will build Hoppy Bunny -- a clone of the popular mobile game Flappy Bird. Building the game itself is a simple introduction to game development! We will use Apple's new Swift programming language together with SpriteBuilder and Cocos2D.
 
-![](./TutorialImages/finalProject.gif)
-
-* * *
-
-<!--Flappy fly-->
-
-This is the updated Swift version of the [Objective-C Flappy Fly Tutorial](https://www.makeschool.com/gamernews/369/build-your-own-flappy-bird-with-spritebuilder-and?source=mgwu) for SpriteBuilder and Cocos2D. Thanks for the initial [Flappy Fly Swift port](http://forum.cocos2d-swift.org/t/flappyfly-tutorial-has-been-portet-to-swift-syntax/16045) goes to Cocos2D user Aleksey "GameOver" Zhilin!
+<!-- If you aren't familiar with SpriteBuilder you should read our [SpriteBuilder beginner tutorial](https://www.makeschool.com/tutorials/getting-started-with-spritebuilder-and-swift/installing-spritebuilder) first since this tutorial assumes that you are familiar with basic SpriteBuilder tasks. Make sure you have both SpriteBuilder and Xcode installed! -->
 
 # What you will learn
 
 This tutorial will teach you how to implement a Flappy Bird clone for iOS using Apple's new Swift programming language together with SpriteBuilder and Cocos2D. You'll start with a blank project.
-
-If you aren't familiar with SpriteBuilder, you should consider reading our [SpriteBuilder beginner tutorial](https://www.makegameswith.us/tutorials/getting-started-with-spritebuilder/) first since this tutorial assumes that you are familiar with basic SpriteBuilder tasks.
 
 If you complete this tutorial you will learn how to:
 
@@ -26,87 +18,85 @@ If you complete this tutorial you will learn how to:
 *   use physics with Cocos2D
 *   use Swift with Cocos2D
 
-The solution to this [tutorial is available on GitHub](https://github.com/MakeGamesWithUs/FlappyFly-Swift):
+#The finished product
 
-![](https://static.makegameswith.us/gamernews_images/TVZ2mTmQpl/labtocat.png)
+The final game will look like this:
+
+![](../Tutorial-Images/finalProject.gif)
 
 Let's get started with *Hoppy Bunny Swift!*
 
-# Getting Started
+#Basic concepts of a side scroller in Cocos2d
 
-First of all let's do a quick version check. This tutorial is written using SpriteBuilder v1.4 and the bundled Cocos2D v3.4. 
-
-You can check your SpriteBuilder version by opening the *About SpriteBuilder* dialog:
-
-![](./TutorialImages/SpriteBuilder_version.png)
-
-Using a different version of SpriteBuilder or Cocos2D may lead to different results in some of the steps, especially if you use older versions - some things just might not work. In case you have problems resolving version issues, please post your question on the [SpriteBuilder forum](http://forum.spritebuilder.com).
-
-## Basic concepts of a side scroller in Cocos2d
-
-If you have never built a side scroller before, this introduction will help you understand the basic concepts. Some developers start developing a side scroller with a static (immovable) hero and a level that scrolls towards this hero. However, for physics engines, it is a lot easier if the hero moves through the world/level rather than the entire world moving toward the hero, so that's what we'll do here. 
+If you have never built a side scroller before, this introduction will help you understand the basic concepts. Some developers start developing a side scroller with a static (immovable) hero and a level that scrolls towards this hero. However, for physics engines, it is a lot easier if the hero moves through the world/level rather than the entire world moving toward the hero, so that's what we'll do here.
 
 We will implement the game as follows:
 
 *   The obstacles in the level are static
-*   The fly moves to the right at constant speed
+*   The bunny moves to the right at constant speed
 *   The camera follows the bunny
 *   The objects are created on the right side before they come into view
 *   The objects are deleted once they've moved outside the left boundary of the view
 
-## Create a new project
+#Create a new project
 
-The first step is to create a new SpriteBuilder project by opening SpriteBuilder and selecting File -> New -> Project. You need to select Swift as the *Primary Language* in the *New File* dialog as highlighted below: 
+> [action]
+> The first step is to create a new SpriteBuilder project by opening SpriteBuilder and selecting `File > New > Project`. You need to select `Swift` as the *Primary Language* in the *New File* dialog as highlighted below:
+>
+> ![](../Tutorial-Images/SpriteBuilder_languageSelect.png)
 
-![](./TutorialImages/SpriteBuilder_languageSelect.png)
+#Adding artwork
 
-## Adding Artwork
+<!-- TODO: LINK ART PACK -->
 
-After the project is created, you should [download our art pack for this game](https://s3.amazonaws.com/mgwu-misc/FlappyFlyArtPack.zip). Add the art pack you just downloaded to your SpriteBuilder project by first unpacking the archive, then dragging the folder onto the File View in SpriteBuilder (lower left area where files & folders are displayed):
+> [action]
+> After the project is created, you should [download our art pack for this game](). Add the art pack you just downloaded to your SpriteBuilder project by first unpacking the archive, then dragging the folder onto the File View in SpriteBuilder (lower left area where files & folders are displayed):
+>
+> ![](../Tutorial-Images/SpriteBuilder_artpack.png)
 
-![](./TutorialImages/SpriteBuilder_artpack.png)
+#Setup the Gameplay scene
 
-# Setup the Gameplay scene
+Before you start, you'll have to make changes to the project settings. *Hoppy Bunny Swift* is a portrait mode game and the assets for the game are provided in 2x (iPhone retina resolution).
 
-Before you start, you'll have to make changes to the project settings. *Hoppy Bunny Swift* is a portrait mode game and the assets for the game are provided in 2x (iPhone retina resolution). 
-
-Open the project settings and adjust these two settings:
-
-![](./TutorialImages/SpriteBuilder_projectSettings.png)
+> [action]
+> Open the project settings and adjust these two settings:
+>
+> ![](../Tutorial-Images/SpriteBuilder_projectSettings.png)
 
 As a test, publish your project and run it in Xcode.
 
-You can publish your project by pressing the button in the top left corner of SpriteBuilder, or by selecting File -> Publish. **Remember: you must publish your changes for them to be visible in XCode!**
+> [info]
+> You can publish your project by pressing the button in the top left corner of SpriteBuilder, or by selecting File -> Publish. **Remember: you must publish your changes for them to be visible in Xcode!**
 
-To open your project in XCode, select File -> Open Project in XCode. While in XCode, you can run your project by going selecting Product -> Run. 
+To open your project in Xcode, select File -> Open Project in Xcode. While in Xcode, you can run your project by going selecting Product -> Run.
 
 Your app should be displayed in portrait mode.
 
-## Empty the Stage
+#Empty the stage
 
 First, remove the "SpriteBuilder" label and the gradient node from the *MainScene*. You should be left with a blank (black) stage.
 
-## Add the Background Image
+#Add the background image
 
 Add the background image by dragging `background.png` onto the stage:
 
-![](./TutorialImages/SpriteBuilder_background.png)
+![](../Tutorial-Images/SpriteBuilder_background.png)
 
 <!--Discuss relative corner, position percentage vs points, and anchor point-->
 
-Set the reference corner to the top left. This has the effect that the position of the background will be interpreted as being relative to the top left corner, with the positive Y axis pointing downwards (just like in Cocoa/UIKit). Set position to (0,0) and anchor point to (0,1). 
+Set the reference corner to the top left. This has the effect that the position of the background will be interpreted as being relative to the top left corner, with the positive Y axis pointing downwards (just like in Cocoa/UIKit). Set position to (0,0) and anchor point to (0,1).
 
-The background will now stick to the top left corner, independent of the device size. This is important because we want to support 3.5-inch and 4 inch iPhones. 
+The background will now stick to the top left corner, independent of the device size. This is important because we want to support 3.5-inch and 4 inch iPhones.
 
 You can preview how your app will look on other devices by toggling through the Resolution settings:
 
-![](./TutorialImages/SpriteBuilder_screenRes.png)
+![](../Tutorial-Images/SpriteBuilder_screenRes.png)
 
-## Add the Ground Image
+#Add the ground image
 
 Add the ground image by dragging it onto the stage:
 
-![](./TutorialImages/SpriteBuilder_ground.png)
+![](../Tutorial-Images/SpriteBuilder_ground.png)
 
 You'll notice the ground image extends beyond the screen border. Doing this ensures it will cover the screen, regardless of the current device's screensize.
 
@@ -114,49 +104,47 @@ You'll notice the ground image extends beyond the screen border. Doing this ensu
 
 Set the reference corner of the ground sprite to the bottom left (default). Set the position to (0, 12) and the anchor point to (0,0). This way the ground will stick to the left bottom, independent of the screen size.
 
-## Add the Clouds Image
+#Add the clouds image
 
 Add the clouds to the scene:
 
-![](./TutorialImages/SpriteBuilder_clouds.png)
+![](../Tutorial-Images/SpriteBuilder_clouds.png)
 
 Set the reference corner to the top left. As position use either `(187, 134)`, or any other value you think looks good. Enjoy this creative freedom. ;)
 
-# Creating the Bunny
+#Creating the Bunny
 
 Now you're going to create a new *CCB-File* for the bunny and add a sprite animation to it.
 
-## Create the Bunny Document
-
 Create a new *CCB-File* of type *Sprite*:
 
-![](./TutorialImages/SpriteBuilder_heroCCB.png)
+![](../Tutorial-Images/SpriteBuilder_heroCCB.png)
 
 Select the CCSprite in the Node Tree and set its sprite frame property to *bunny1.png* from the art pack:
 
-![](./TutorialImages/SpriteBuilder_bunny.png)
+![](../Tutorial-Images/SpriteBuilder_bunny.png)
 
-## Animate the Bunny
+#Animate the Bunny
 
 In case you have problems with any of the following steps, you might want to take a look at the [sprite frame animation chapter](https://www.makegameswith.us/tutorials/getting-started-with-spritebuilder/animating-spritebuilder/) in our beginner tutorial, which explains timeline animations in detail.
 
 The animation you are about to define will be 1 second long and infinitely looping. First, you need to set the timeline duration to 1 second:
 
-![](./TutorialImages/SpriteBuilder_bunnyDuration.gif)
+![](../Tutorial-Images/SpriteBuilder_bunnyDuration.gif)
 
 Next, insert six evenly spaced *Sprite Frame Keyframes*, which will repeatedly switch between the two images *bunny1.png* and *bunny2.png*. This is how you insert a Sprite Frame Keyframe:
 
-![](./TutorialImages/SpriteBuilder_animationKeyframe.png)
+![](../Tutorial-Images/SpriteBuilder_animationKeyframe.png)
 
-Note that the *CCSprite* needs to be selected in the timeline in order to add a Keyframe. Add 6 of these Sprite Frames and use the *Sprite Frame* property of the *CCSprite* to switch between the two different bunny images. 
+Note that the *CCSprite* needs to be selected in the timeline in order to add a Keyframe. Add 6 of these Sprite Frames and use the *Sprite Frame* property of the *CCSprite* to switch between the two different bunny images.
 
 Alternatively, you can select the bunny sprite, then select the *bunny1.png* and *bunny2.png* images, then right-click and choose *Create Keyframes from Selection*. You can then copy & paste the keyframes until you have a total of 6 keyframes.
 
 The last step is to chain the timeline to itself so that the animation is repeated infinitely. This can be done at the bottom of the timeline bar. Once you are done, the result should look like this:
 
-![](./TutorialImages/SpriteBuilder_bunnyHopping.gif)
+![](../Tutorial-Images/SpriteBuilder_bunnyHopping.gif)
 
-# Let the Bunny fall
+#Let the Bunny fall
 
 Next, you'll enable physics on the bunny and add a physics node to the scene.
 
@@ -164,13 +152,13 @@ Next, you'll enable physics on the bunny and add a physics node to the scene.
 
 Because the *Hoppy Bunny Swift* game uses physics, you need to add a *CCPhysicsNode*. Open *MainScene.ccb* and drag a *Physics Node* from the Node Library View onto the stage. Set the size of the Physics Node to be a 100% of the parent's size:
 
-![](./TutorialImages/SpriteBuilder_physicsNode.png)
+![](../Tutorial-Images/SpriteBuilder_physicsNode.png)
 
 ## Make the Ground Static
 
 Select the ground node. On its Item Physics tab, enable physics and make it a *Static* body.
 
-![](./TutorialImages/SpriteBuilder_groundPhysics.png)
+![](../Tutorial-Images/SpriteBuilder_groundPhysics.png)
 
 Drag the ground node into the timeline so it becomes a child of the *CCPhysicsNode*. Remember that every Node that has physics enabled needs to be below a *CCPhysicsNode* in the hierarchy; otherwise, it will not behave like a physics object, nor will it collide with other physics bodies.
 
@@ -179,7 +167,7 @@ Drag the ground node into the timeline so it becomes a child of the *CCPhysicsNo
 
 Open *Hero.ccb* and select the Bunny sprite. Switch to the Item Physics tab and check the enable physics checkbox. Make sure the body type is set to *Dynamic*.
 
-![](./TutorialImages/SpriteBuilder_bunnyPhysics.png)
+![](../Tutorial-Images/SpriteBuilder_bunnyPhysics.png)
 
 ### Add the Bunny to the World
 
@@ -191,7 +179,7 @@ Sometimes *Sub Files* are not displayed properly when initially placed into a sc
 
 Before you run the game, let's add some crystals above the ground to complete the visual appeal of *Hoppy Bunny Swift* by adding `bg_crystals.png` onto the stage:
 
-![](./TutorialImages/SpriteBuilder_crystalPosition.png)
+![](../Tutorial-Images/SpriteBuilder_crystalPosition.png)
 
 <!--Readdress why we are using absolute value positions, as in "like the ground node before, we know the art is blah blah blah"-->
 
@@ -201,33 +189,33 @@ Set the *position* of the crystal to `(160.0, 134.0)`. Make sure all the decorat
 
 You are ready to publish your project and run the App from Xcode! When you run your project, you should see the bunny slowly sailing down and coming to a rest on the ground:
 
-![](./TutorialImages/XCode_bunnyFalling.gif)
+![](../Tutorial-Images/Xcode_bunnyFalling.gif)
 
 Great! Now let's get our bunny hopping!
 
 # Add controls and tune physics
 
-At the moment the fly drops to the floor (slowly) and there is nothing a player can do to stop this! In this section you are going to tune some physics values and add touch controls so that the player can stop the fly from falling down.
+At the moment the bunny drops to the floor (slowly) and there is nothing a player can do to stop this! In this section you are going to tune some physics values and add touch controls so that the player can stop the bunny from falling down.
 
 ## Change the Gravitational Constant of the Universe
 
 Let's [just redefine gravity](https://www.youtube.com/watch?v=5xdbPhnfFEI) by selecting the physics node in the *MainScene.ccb*, then increase the gravity property to -700 to make the bunny drop faster:
 
-![](./TutorialImages/SpriteBuilder_gravity.png)
+![](../Tutorial-Images/SpriteBuilder_gravity.png)
 
 ## Making Code Connections
 
-Before we can control the bunny via XCode, we first must make a connection to it in SpriteBuilder. To do this, select your bunny in *MainScene.ccb* and go to the code connections tab (second tab on the top-right). Give the bunny the variable name *hero*, and make sure it's a Doc root var:
+Before we can control the bunny via Xcode, we first must make a connection to it in SpriteBuilder. To do this, select your bunny in *MainScene.ccb* and go to the code connections tab (second tab on the top-right). Give the bunny the variable name *hero*, and make sure it's a Doc root var:
 
-![](./TutorialImages/SpriteBuilder_connectHero.png)
+![](../Tutorial-Images/SpriteBuilder_connectHero.png)
 
-Be sure to publish your project! Go to XCode and navigate to *MainScene.swift*. In order to control our bunny, we need to complete the code connection. Make your  *MainScene.swift* look like the following:
+Be sure to publish your project! Go to Xcode and navigate to *MainScene.swift*. In order to control our bunny, we need to complete the code connection. Make your  *MainScene.swift* look like the following:
 
-	import Foundation
-	
-	class MainScene: CCNode {
-  		weak var hero: CCSprite!
-  	}
+>	import Foundation
+>
+>	class MainScene: CCNode {
+>  		weak var hero: CCSprite!
+>  	}
 
 We now have what's called a reference to the bunny, which means we can manipulate the specific bunny object we placed in *MainScene.ccb* by using `hero` in *MainScene.swift*. But what good is a reference if we don't do anything with it? Let's start hopping!
 
@@ -237,15 +225,15 @@ Our goal is to have our bunny hop every time we touch the screen.
 
 First, let's enable touch events in *MainScene.swift* by adding the method `didLoadFromCCB()`, which is called every time a CCB file is loaded. Inside the method, we'll enable touch events. Add the following code to *MainScene.swift*:
 
-	func didLoadFromCCB() {
-		userInteractionEnabled = true
-	}
+>	func didLoadFromCCB() {
+>		userInteractionEnabled = true
+>	}
 
 Then add another method to *MainScene.swift* which applies an impulse to the bunny every time a touch is first detected:
 
-    override func touchBegan(touch: CCTouch!, withEvent event: CCTouchEvent!) {
-        hero.physicsBody.applyImpulse(ccp(0, 400))
-    }
+>    override func touchBegan(touch: CCTouch!, withEvent event: CCTouchEvent!) {
+>        hero.physicsBody.applyImpulse(ccp(0, 400))
+>    }
 
 <!--Perhaps should be more concise-->
 
@@ -257,16 +245,16 @@ Run the game again to verify that the bunny can be controlled by touches.
 
 ## Adding a Speed Limit
 
-As you may have noticed while testing the touch implementation, when you touch the screen repeatedly in short intervals, the impulses add up and the bunny shoots out of the top edge of the screen, gone for seconds or even (seemingly) forever. To make the game playable, you will want to limit the vertical upward velocity. The best way to limit the bunny's speed is via the *update* method, which is called every frame in a Cocos2D object. 
+As you may have noticed while testing the touch implementation, when you touch the screen repeatedly in short intervals, the impulses add up and the bunny shoots out of the top edge of the screen, gone for seconds or even (seemingly) forever. To make the game playable, you will want to limit the vertical upward velocity. The best way to limit the bunny's speed is via the *update* method, which is called every frame in a Cocos2D object.
 
 Add the following method to *MainScene.swift* to limit the bunny's vertical velocity:
 
-    override func update(delta: CCTime) {
-    	let velocityY = clampf(Float(hero.physicsBody.velocity.y), -Float(CGFloat.max), 200)
-    	hero.physicsBody.velocity = ccp(0, CGFloat(velocityY))
-    }
+>    override func update(delta: CCTime) {
+>    	let velocityY = clampf(Float(hero.physicsBody.velocity.y), -Float(CGFloat.max), 200)
+>    	hero.physicsBody.velocity = ccp(0, CGFloat(velocityY))
+>    }
 
-Clamping means testing and optionally changing a given value so that it never exceeds the specified value range. 
+Clamping means testing and optionally changing a given value so that it never exceeds the specified value range.
 
 In this method, you are limiting the upwards velocity to 200 at most. By using the negative *-Float(CGFloat.max)* value as the minimum value, you avoid artificially limiting the falling speed. You don't need to set the x velocity because you will be setting the x *position* manually, so modifying the x velocity here would have no effect.
 
@@ -286,26 +274,26 @@ The first step is to add a property to keep track of the time since the last tou
 
 Next, extend the touch method to trigger the upward rotation on a touch. You implement this by applying an angular impulse to the physics body. You also need to reset the *sinceTouch* value every time a touch occurs:
 
-    override func touchBegan(touch: CCTouch!, withEvent event: CCTouchEvent!) {
-        hero.physicsBody.applyImpulse(ccp(0, 400))
-        hero.physicsBody.applyAngularImpulse(10000)
-        sinceTouch = 0
-    }
+>    override func touchBegan(touch: CCTouch!, withEvent event: CCTouchEvent!) {
+>        hero.physicsBody.applyImpulse(ccp(0, 400))
+>        hero.physicsBody.applyAngularImpulse(10000)
+>        sinceTouch = 0
+>    }
 
 This is how your *touchBegan* method should look now. Applying a high angular impulse will lead to the bunny turning upwards fast. If you like to see the bunny spinning wildly, go ahead and try the game now.
 
 You still need to limit the rotation of the bunny and start a downward rotation if no touch occurred in a while. You will do both in the update method. Add these lines at the end of your update method:
 
-        sinceTouch += delta
-        hero.rotation = clampf(hero.rotation, -30, 90)
-        if (hero.physicsBody.allowsRotation) {
-            let angularVelocity = clampf(Float(hero.physicsBody.angularVelocity), -2, 1)
-            hero.physicsBody.angularVelocity = CGFloat(angularVelocity)
-        }
-        if (sinceTouch > 0.3) {
-            let impulse = -18000.0 * delta
-            hero.physicsBody.applyAngularImpulse(CGFloat(impulse))
-        }
+>        sinceTouch += delta
+>        hero.rotation = clampf(hero.rotation, -30, 90)
+>        if (hero.physicsBody.allowsRotation) {
+>            let angularVelocity = clampf(Float(hero.physicsBody.angularVelocity), -2, 1)
+>            hero.physicsBody.angularVelocity = CGFloat(angularVelocity)
+>        }
+>        if (sinceTouch > 0.3) {
+>            let impulse = -18000.0 * delta
+>            hero.physicsBody.applyAngularImpulse(CGFloat(impulse))
+>        }
 
 There are a couple things going on here. First, you add the *delta* (change in) time to the *sinceTouch* value to capture how much time has passed since the last touch. In the next line, we limit the rotation of the bunny.
 
@@ -315,28 +303,28 @@ Finally, you check if more than three tenths of a second passed since the last t
 
 Now run your game again. The behavior should be similar to this:
 
-![](./TutorialImages/SpriteBuilder_bunnyRotation.gif)
+![](../Tutorial-Images/SpriteBuilder_bunnyRotation.gif)
 
 Hopping up and down is fun, but it would be even better if our bunny was going somewhere!
 
 # Scrolling the World
 
-You are going to begin by moving the bunny with a constant speed while updating the positions of movable objects. 
+You are going to begin by moving the bunny with a constant speed while updating the positions of movable objects.
 
 ## Moving the Bunny
 
-Publish your Spritebuilder project and open XCode. We need to define a new member variable, which we will call `scrollSpeed`. Add the following line to *MainScene.swift* near the other member variables of the class:
-	
-	var scrollSpeed : CGFloat = 80
-	
+Publish your Spritebuilder project and open Xcode. We need to define a new member variable, which we will call `scrollSpeed`. Add the following line to *MainScene.swift* near the other member variables of the class:
+
+>	var scrollSpeed : CGFloat = 80
+
 Now you need to use that variable to manipulate the scroll speed of your bunny! Add the following line to the `update(...)` method in *MainScene.swift*:
 
-	hero.position = ccp(hero.position.x + scrollSpeed * CGFloat(delta), hero.position.y)
-	
-<!--General coding lesson-->
-Defining a member variable for the scroll speed rather than simply defining the hero's position to be increased by *80* * *delta* every time is an important programming practice. Variable names offer us clarity - if someone else looks at your code, or even if you revisit it next week, it may not be clear what *80* affects. Explicitly using the variable `scrollSpeed` alleviates this problem. They also offer us flexibility. Imagine we were writing a larger program which used `scrollSpeed` in several places and instead of using a variable, we used *80* every time. What happens if we decide our scroll speed is a little slow? We will need to visit every place we wrote *80* and change it. It's not hard to understand how this could quickly get messy and inefficient. 
+>	hero.position = ccp(hero.position.x + scrollSpeed * CGFloat(delta), hero.position.y)
 
-By multiplying the scroll speed with *delta* time you ensure that the fly always moves at the same speed, independent of the frame rate. 
+<!--General coding lesson-->
+Defining a member variable for the scroll speed rather than simply defining the hero's position to be increased by *80* * *delta* every time is an important programming practice. Variable names offer us clarity - if someone else looks at your code, or even if you revisit it next week, it may not be clear what *80* affects. Explicitly using the variable `scrollSpeed` alleviates this problem. They also offer us flexibility. Imagine we were writing a larger program which used `scrollSpeed` in several places and instead of using a variable, we used *80* every time. What happens if we decide our scroll speed is a little slow? We will need to visit every place we wrote *80* and change it. It's not hard to understand how this could quickly get messy and inefficient.
+
+By multiplying the scroll speed with *delta* time you ensure that the bunny always moves at the same speed, independent of the frame rate.
 
 **Caution:** Setting the position of a node with a physics body manually in the update method is generally not the best use of the physics engine, since a node with a physics body is supposed to have its position updated by the body. However, in this game, collisions are not resolved - they are merely used to sense the player (1) passing through gates and (2) hitting the obstacles.
 
@@ -354,16 +342,16 @@ Just as in Flappy Bird, the background images will be all static. The only thing
 
 To scroll the physics node in code, you need to setup a code connection for the physics node. Select the physics node, then enter *gamePhysicsNode* in the *doc root var* field:
 
-![](./TutorialImages/SpriteBuilder_connectPhysics.png)
+![](../Tutorial-Images/SpriteBuilder_connectPhysics.png)
 
 Now switch to Xcode and create a new property called *gamePhysicsNode* for this code connection. Add the following line to *MainScene.swift* just below the line that declares the *hero* property:
 
-    weak var gamePhysicsNode : CCPhysicsNode!
+>    weak var gamePhysicsNode : CCPhysicsNode!
 
 Next, you are going to add a line to your update method immediately after updating the hero's position which moves the physics node:
 
-    hero.position = ccp(hero.position.x + scrollSpeed * CGFloat(delta), hero.position.y)
-    gamePhysicsNode.position = ccp(gamePhysicsNode.position.x - scrollSpeed * CGFloat(delta), gamePhysicsNode.position.y)
+>    hero.position = ccp(hero.position.x + scrollSpeed * CGFloat(delta), hero.position.y)
+>    gamePhysicsNode.position = ccp(gamePhysicsNode.position.x - scrollSpeed * CGFloat(delta), gamePhysicsNode.position.y)
 
 Test out your game again!
 
@@ -371,7 +359,7 @@ Yay, the scrolling works! However, when the game scrolls too far to the right th
 
 ## Loop the Ground
 
-You can make the ground loop by adding a second ground sprite and implementing an endless scrolling using both ground sprites. 
+You can make the ground loop by adding a second ground sprite and implementing an endless scrolling using both ground sprites.
 
 When a ground sprite leaves the left edge you'll move it to the right edge of the screen to make the ground seem endlessly repeating.
 
@@ -381,7 +369,7 @@ The first step will be adding a second ground sprite to the *MainScene.ccb*. It 
 
 The easiest way to create another ground sprite is to duplicate the existing one via *Edit => Copy* and *Edit => Paste*. This has the advantage that you can make all settings below to one sprite, then copy it and only apply properties that are different. Alternatively you can just add a second ground image to the stage.
 
-![](./TutorialImages/SpriteBuilder_documentBorder.png)
+![](../Tutorial-Images/SpriteBuilder_documentBorder.png)
 
 Drag the duplicated ground sprite below the *CCPhysicsNode*, if necessary. Set its position to (423,12). *423* is the width of the ground image, *12* is the y-Position of the first ground sprite. **Also set the anchor point to (0, 0.5), the same as the first ground sprite**. This way the two ground sprites will line up nicely.
 
@@ -389,43 +377,43 @@ There are a couple of important steps to implement:
 
 *   Ensure both ground sprites have physics enabled, and are set to be *Static* physics bodies
 *   Create a *doc root var* code connection for both ground sprites:
-	*   Name the first var *ground1*
-	*   Name the other var *ground2*
+*   Name the first var *ground1*
+*   Name the other var *ground2*
 
 If you followed all the steps closely, you are now ready to go back to Xcode... But don't forget to publish your project!
 
 ### Coding the Ground
 
-In code, you will have to add *ground1* and *ground2* properties for both ground sprites to complete the code connection. 
+In code, you will have to add *ground1* and *ground2* properties for both ground sprites to complete the code connection.
 
 You should also add an array that will contain both of the ground sprites for easier processing later on. Insert the following code to the *MainScene* class, between the *gamePhysicsNode* var declaration and the *update* function:
 
-    weak var ground1 : CCSprite!
-    weak var ground2 : CCSprite!
-    var grounds = [CCSprite]()  // initializes an empty array
+>    weak var ground1 : CCSprite!
+>    weak var ground2 : CCSprite!
+>    var grounds = [CCSprite]()  // initializes an empty array
+>
+>    func didLoadFromCCB() {
+>    	userInteractionEnabled = true
+>        grounds.append(ground1)
+>        grounds.append(ground2)
+>    }
 
-    func didLoadFromCCB() {
-    	userInteractionEnabled = true
-        grounds.append(ground1)
-        grounds.append(ground2)
-    }
-    
 In *didLoadFromCCB*, you assign the two ground sprites to the *grounds* array to be able to loop through the ground sprites instead of having to juggle with the two identifiers *ground1* and *ground2*. The array is initialized when declared by simply assigning it an empty array. This avoids having to implement the *init* function.
-    
-In the update method, you will perform a check for each ground sprite to see if it has moved off the screen, and if so, it will be moved to the far right and next to the ground sprite that's currently still visible on the screen. 
+
+In the update method, you will perform a check for each ground sprite to see if it has moved off the screen, and if so, it will be moved to the far right and next to the ground sprite that's currently still visible on the screen.
 
 Add the following chunk of code to the bottom of the `update(...)` method in *MainScene.swift*:
 
-    // loop the ground whenever a ground image was moved entirely outside the screen
-    for ground in grounds {
-        let groundWorldPosition = gamePhysicsNode.convertToWorldSpace(ground.position)
-        let groundScreenPosition = convertToNodeSpace(groundWorldPosition)
-        if groundScreenPosition.x <= (-ground.contentSize.width) {
-                ground.position = ccp(ground.position.x + ground.contentSize.width * 2, ground.position.y)
-        }
-    }
+>    // loop the ground whenever a ground image was moved entirely outside the screen
+>    for ground in grounds {
+>        let groundWorldPosition = gamePhysicsNode.convertToWorldSpace(ground.position)
+>        let groundScreenPosition = convertToNodeSpace(groundWorldPosition)
+>        if groundScreenPosition.x <= (-ground.contentSize.width) {
+>                ground.position = ccp(ground.position.x + ground.contentSize.width * 2, ground.position.y)
+>        }
+>    }
 
-This code retrieves the current screen position for each ground sprite. Since the ground sprites aren't children of the *MainScene* (*self*), you need to get the world position of the ground sprites first, then use the *convertToNodeSpace* method to convert the position in *MainScene* (*self*) coordinate space. 
+This code retrieves the current screen position for each ground sprite. Since the ground sprites aren't children of the *MainScene* (*self*), you need to get the world position of the ground sprites first, then use the *convertToNodeSpace* method to convert the position in *MainScene* (*self*) coordinate space.
 
 Once you have the position, you check if a ground sprite is off the screen. If that is the case, you move it to the right of the other ground sprite. This creates the ground's endless repeating effect.
 
@@ -437,13 +425,13 @@ Now you will be adding obstacles and implement a mechanism to randomly create mo
 
 Go back to SpriteBuilder and create a new *CCB File* of type *Node* for the obstacles:
 
-![](./TutorialImages/SpriteBuilder_obstacleNode.png)
+![](../Tutorial-Images/SpriteBuilder_obstacleNode.png)
 
 You will construct the obstacles with two carrots, one at the top and one at the bottom and *CCNode* in between which will be used as a goal trigger - the player's score increases when colliding with the goal node.
 
 To the *root node*:
 
-*	add carrot_top.png
+*  add carrot_top.png
 *  add carrot_top.png
 *  add CCNode
 *  set *content size* to `(80, 568)`
@@ -451,70 +439,70 @@ To the *root node*:
 
 To *carrot_top*:
 
-*	set *reference corner* to `Top-left`
-* 	set *X position* to `50%`
+*  set *reference corner* to `Top-left`
+*  set *X position* to `50%`
 *  set *Y position* to `128.0`
 *  set *anchor point* to `(0.5, 0)`
 
 To *carrot_bottom*:
 
-*	set *reference corner* to `Top-left`
-* 	set *X position* to `50%`
+*  set *reference corner* to `Top-left`
+*  set *X position* to `50%`
 *  set *Y position* to `228.0`
-*  set *anchor point* to `(0.5, 1)`	
+*  set *anchor point* to `(0.5, 1)`
 
 To *CCNode*:
 
-*	set *reference corner* to `Top-left`
-* 	set *position* to `(22, 576)`
+*  set *reference corner* to `Top-left`
+*  set *position* to `(22, 576)`
 *  set *anchor point* to `(0, 0)`
 
 Your obstacle should look something like this:
 
-![](./TutorialImages/SpriteBuilder_obstacle.png)
+![](../Tutorial-Images/SpriteBuilder_obstacle.png)
 
 It is important to get the pipe's positions right, to ensure that the obstacles look the same on an 3.5-inch and a 4-inch phone.
 
 You can test if you setup the obstacle correctly by adding an instance of *Obstacle.ccb* to the *MainScene.ccb* by dragging the *Obstacle.ccb* onto the *MainScene.ccb* stage. Be sure to save the *Obstacle.ccb* document because CCB instances (represented by *Sub File* nodes) will always use the state of a document when it was last saved, but won't show any (as of yet) unsaved modifications. The result should be similar to this one:
 
-![](./TutorialImages/SpriteBuilder_obstacleCheck.png)
+![](../Tutorial-Images/SpriteBuilder_obstacleCheck.png)
 
 Once you have successfully tested that the obstacle looks correct, remove it from *MainScene.ccb,* as you will write code to add obstacles.
 
 ## Generate obstacles in code
 
-In this step you will create the obstacles from the *Obstacle.ccb* and add them to the game. 
+In this step you will create the obstacles from the *Obstacle.ccb* and add them to the game.
 
 Open Xcode and add the following properties to *MainScene.swift* right next to the other properties:
 
-    var obstacles : [CCNode] = []
-    let firstObstaclePosition : CGFloat = 280
-    let distanceBetweenObstacles : CGFloat = 160
+>    var obstacles : [CCNode] = []
+>    let firstObstaclePosition : CGFloat = 280
+>    let distanceBetweenObstacles : CGFloat = 160
 
 You will use the *obstacles* array to keep track of the obstacles created. The two constants describe the x position of the first obstacle and the distance between two obstacles.
 
 Now add the method that will take care of spawning obstacles:
 
-    func spawnNewObstacle() {
-        var prevObstaclePos = firstObstaclePosition
-        if obstacles.count > 0 {
-            prevObstaclePos = obstacles.last!.position.x
-        }
-        
-        // create and add a new obstacle
-        let obstacle = CCBReader.load("Obstacle")
-        obstacle.position = ccp(prevObstaclePos + distanceBetweenObstacles, 0)
-        gamePhysicsNode.addChild(obstacle)
-        obstacles.append(obstacle)
-    }
+>    func spawnNewObstacle() {
+>        var prevObstaclePos = firstObstaclePosition
+>        if obstacles.count > 0 {
+>            prevObstaclePos = obstacles.last!.position.x
+>        }
+>
+>        // create and add a new obstacle
+>        let obstacle = CCBReader.load("Obstacle")
+>        obstacle.position = ccp(prevObstaclePos + distanceBetweenObstacles, 0)
+>        gamePhysicsNode.addChild(obstacle)
+>        obstacles.append(obstacle)
+>    }
 
 This method creates a new obstacle by loading it from the *Obstacle.ccb* file and places it within the defined distance of the last existing obstacle. If no other obstacles already exist the position of the first obstacle will be set to the *firstObstaclePosition* constant you just defined.
 
 Now all you have to do is to call this method from the *didLoadFromCCB* method, which is called as soon as our scene's CCB document was initialized. Add this to the end of the *didLoadFromCCB* method:
 
-    spawnNewObstacle()
-    spawnNewObstacle()
-    spawnNewObstacle()
+>    spawnNewObstacle()
+>    spawnNewObstacle()
+>    spawnNewObstacle()
 
 This spawns three obstacles initially. You can try out the game now. You should see exactly three obstacles passing by, all at the same height, followed by - nothingness.
 
@@ -526,21 +514,21 @@ You will now implement a mechanism that checks if an obstacle moved off the scre
 
 Add these lines to the end of your *update* method:
 
-    for obstacle in obstacles.reverse() {
-        let obstacleWorldPosition = gamePhysicsNode.convertToWorldSpace(obstacle.position)
-        let obstacleScreenPosition = convertToNodeSpace(obstacleWorldPosition)
-            
-        // obstacle moved past left side of screen?
-        if obstacleScreenPosition.x < (-obstacle.contentSize.width) {
-            obstacle.removeFromParent()
-            obstacles.removeAtIndex(find(obstacles, obstacle)!)
-                
-            // for each removed obstacle, add a new one
-            spawnNewObstacle()
-        }
-    }
+>    for obstacle in obstacles.reverse() {
+>        let obstacleWorldPosition = gamePhysicsNode.convertToWorldSpace(obstacle.position)
+>        let obstacleScreenPosition = convertToNodeSpace(obstacleWorldPosition)
+>
+>        // obstacle moved past left side of screen?
+>        if obstacleScreenPosition.x < (-obstacle.contentSize.width) {
+>            obstacle.removeFromParent()
+>            obstacles.removeAtIndex(find(obstacles, obstacle)!)
+>
+>            // for each removed obstacle, add a new one
+>            spawnNewObstacle()
+>        }
+>    }
 
-The basics of this code should remind you of the ground looping we implemented previously. It checks whether obstacles are off the screen and if so, removes that obstacle, then spawns a new obstacle. 
+The basics of this code should remind you of the ground looping we implemented previously. It checks whether obstacles are off the screen and if so, removes that obstacle, then spawns a new obstacle.
 
 Note that we enumerate the *obstacles* array in reverse (backwards) so that we can legally remove and add objects at the end of the array while enumerating. More precisely: when enumerating an array in reverse, it is legal to modify the contents of the array at indexes equal to or higher than the index that's currently being processed. This is a neat trick to avoid having to fill a "to be deleted" array with another for loop that removes the items in the "to be deleted" list for good.
 
@@ -548,11 +536,11 @@ Now run your game. You should see an endless amount of scrolling obstacles! They
 
 ## Generating randomized obstacles
 
-The next challenge you are going to tackle is generating randomized obstacles. This means you need to be varying the position of the gap between the two pipes. The first step is setting up a custom class for the obstacle. 
+The next challenge you are going to tackle is generating randomized obstacles. This means you need to be varying the position of the gap between the two pipes. The first step is setting up a custom class for the obstacle.
 
 First, open *Obstacle.ccb* in SpriteBuilder, select the root CCNode and assign it the custom class *Obstacle*:
 
-![](./TutorialImages/SpriteBuilder_obstacleClassConnect.png)
+![](../Tutorial-Images/SpriteBuilder_obstacleClassConnect.png)
 
 Also set up a *doc root var* code connection for the top and the bottom pipe sprites in the *Obstacle.ccb*. Enter in the *doc root var* field *topCarrot* for the carrot\_top sprite and *bottomCarrot* for the carrot\_bottom sprite.
 
@@ -560,29 +548,29 @@ Once you have setup everything, publish and create a new Swift class named *Obst
 
 Here's the complete content of the *Obstacle.swift* file. Add the following code to *Obstacle.swift*:
 
-	import Foundation
-
-	class Obstacle : CCNode {
-		weak var topCarrot : CCNode!
-		weak var bottomCarrot : CCNode!
-  
-		let topCarrotMinimumPositionY : CGFloat = 128
-		let bottomCarrotMaximumPositionY : CGFloat = 440
-		let carrotDistance : CGFloat = 142
-  
-		func setupRandomPosition() {
-      let randomPrecision : UInt32 = 100
-      let random = CGFloat(arc4random_uniform(randomPrecision)) / CGFloat(randomPrecision)
-      let range = bottomCarrotMaximumPositionY - carrotDistance - topCarrotMinimumPositionY
-      topCarrot.position = ccp(topCarrot.position.x, topCarrotMinimumPositionY + (random * range));
-      bottomCarrot.position = ccp(bottomCarrot.position.x, topCarrot.position.y + carrotDistance);
-		}
-}
+>	import Foundation
+>
+>	class Obstacle : CCNode {
+>		weak var topCarrot : CCNode!
+>		weak var bottomCarrot : CCNode!
+>
+>		let topCarrotMinimumPositionY : CGFloat = 128
+>		let bottomCarrotMaximumPositionY : CGFloat = 440
+>		let carrotDistance : CGFloat = 142
+>
+>		func setupRandomPosition() {
+>            let randomPrecision : UInt32 = 100
+>            let random = CGFloat(arc4random_uniform(randomPrecision)) / CGFloat(randomPrecision)
+>            let range = bottomCarrotMaximumPositionY - carrotDistance - topCarrotMinimumPositionY
+>            topCarrot.position = ccp(topCarrot.position.x, topCarrotMinimumPositionY + (random * range));
+>            bottomCarrot.position = ccp(bottomCarrot.position.x, topCarrot.position.y + carrotDistance);
+>		}
+>    }
 
 
 What is happening here?
 
-At the top of the class you define the carrot code connections and a couple of constants. These constants describe the minimum and maximum positions for the top and bottom carrots. 
+At the top of the class you define the carrot code connections and a couple of constants. These constants describe the minimum and maximum positions for the top and bottom carrots.
 
 The values were chosen in such a way that every carrot at the top reaches at least 30 points into the screen for a 3.5-inch iPhone. This means on an iPhone 4S or older the top obstacle will always be clearly visible. The iPhone 5 and 5s will see a larger portion of the top carrot, but this will not change anything about the gameplay. Likewise, the maximum value for the bottom carrot is defined such that a carrot always sticks at least 30 points out of the ground to make it clearly visible.
 
@@ -594,18 +582,18 @@ The random value is used to define which portion of the possible carrot position
 
 You can now use this method to generate random obstacles in our game. In *MainScene.swift* change the *spawnNewObstacle* method used to load an *Obstacle.ccb* document. All you really need to change is the CCBReader line to declare the value returned and assigned to the *obstacle*  constant as being of class *Obstacle*, then calling the *setupRandomPosition* method after assigning the initial position. The lines you need to replace respectively add are marked with appended comments:
 
-    func spawnNewObstacle() {
-        var prevObstaclePos = firstObstaclePosition
-        if obstacles.count > 0 {
-            prevObstaclePos = obstacles.last!.position.x
-        }
-        
-        let obstacle = CCBReader.load("Obstacle") as! Obstacle   // replace this line
-        obstacle.position = ccp(prevObstaclePos + distanceBetweenObstacles, 0)
-        obstacle.setupRandomPosition()   // add this line
-        gamePhysicsNode.addChild(obstacle)
-        obstacles.append(obstacle)
-    }
+>    func spawnNewObstacle() {
+>        var prevObstaclePos = firstObstaclePosition
+>        if obstacles.count > 0 {
+>            prevObstaclePos = obstacles.last!.position.x
+>        }
+>
+>        let obstacle = CCBReader.load("Obstacle") as! Obstacle   // replace this line
+>        obstacle.position = ccp(prevObstaclePos + distanceBetweenObstacles, 0)
+>        obstacle.setupRandomPosition()   // add this line
+>        gamePhysicsNode.addChild(obstacle)
+>        obstacles.append(obstacle)
+>    }
 
 In the above code the return value of *CCBReader.load()* is cast to *as! Obstacle* so that we can treat the loaded *Obstacle.ccb* as an instance of the *Obstacle* class. Additionally, the new *setupRandomPosition* method you just implemented is called after loading an obstacle.
 
@@ -613,31 +601,31 @@ If you run the game now you should see random obstacles occurring! Before you mo
 
 # Fixing the drawing order
 
-Because you add the carrots in code, they are all drawn in front of the ground. By default Cocos2D renders the elements in the same order they were added as children, so the node(s) added last will be drawn on top of their sibling nodes. 
+Because you add the carrots in code, they are all drawn in front of the ground. By default Cocos2D renders the elements in the same order they were added as children, so the node(s) added last will be drawn on top of their sibling nodes.
 
 While you can use the zOrder property to fix that, it's a lot easier to use "layers". Basically all you need to create a layer is to add another node (acting as a "layer") in SpriteBuilder at the correct position in the hierarchy. Then add all objects that should be drawn in the same order to that "layer" node.
 
 Open *MainScene.ccb* in SpriteBuilder and drag a *Node* from the Node Library View onto the CCPhysicsNode. Drag and move the newly added node so that it is the first node after CCPhysicsNode, and you may want to rename it to "obstacles layer":
 
-![](./TutorialImages/SpriteBuilder_obstacleLayer.png)
+![](../Tutorial-Images/SpriteBuilder_obstacleLayer.png)
 
 Then select that *obstacles layer* node and set up a code connection. In the *doc root var* field enter *obstaclesLayer*.
 
 Back in Xcode, add the following property to the end of the properties list in the *MainScene.swift* file:
 
-    weak var obstaclesLayer : CCNode!
+>    weak var obstaclesLayer : CCNode!
 
 Finally, update the *spawnNewObstacle* method so that new obstacles aren't added to the *gamePhysicsNode* anymore, but rather the new *obstaclesLayer* (I've omitted some code, and commented the line you need to replace):
 
-    let obstacle = CCBReader.load("Obstacle") as! Obstacle
-    obstacle.position = ccp(prevObstaclePos + distanceBetweenObstacles, 0)
-    obstacle.setupRandomPosition()
-    obstaclesLayer.addChild(obstacle)   // replace this line
-    obstacles.append(obstacle)
+>    let obstacle = CCBReader.load("Obstacle") as! Obstacle
+>    obstacle.position = ccp(prevObstaclePos + distanceBetweenObstacles, 0)
+>    obstacle.setupRandomPosition()
+>    obstaclesLayer.addChild(obstacle)   // replace this line
+>    obstacles.append(obstacle)
 
 Now you can run the App and see the pipes drawn behind the ground:
 
-![](./TutorialImages/SpriteBuilder_obstacleDrawOrder.gif)
+![](../Tutorial-Images/SpriteBuilder_obstacleDrawOrder.gif)
 
 # The final steps: setting up collisions
 
@@ -645,7 +633,7 @@ You are going to set up collision handling so that your game finally becomes as 
 
 First, open *Obstacle.ccb* in SpriteBuilder in order to enable physics for the carrots. Select one of the two carrots, switch to the Item Physics tab and check the *Enable Physics* checkbox. Change the body type to *Static* and enter *level* in the *Collision Type* field, as shown in the screenshot below. Do this for both pipes.
 
-![](./TutorialImages/SpriteBuilder_carrotPhysics.png)
+![](../Tutorial-Images/SpriteBuilder_carrotPhysics.png)
 
 Then open *MainScene.ccb* and set the *Collision Type* for both ground nodes to *level* as well.
 
@@ -655,33 +643,33 @@ You set the collisionType to "level" to implement a collision callback method la
 
 Open *Obstacle.swift* in Xcode and add the *didLoadFromCCB* method to the *Obstacle* class with the following two lines:
 
-    func didLoadFromCCB() {
-      topCarrot.physicsBody.sensor = true
-      bottomCarrot.physicsBody.sensor = true
-    }
+>    func didLoadFromCCB() {
+>        topCarrot.physicsBody.sensor = true
+>        bottomCarrot.physicsBody.sensor = true
+>    }
 
-This changes the carrot's physics bodies to sensors. Setting the *sensor* value to *true* tells Chipmunk no actual collision feedback should be calculated, meaning the collision callback method does run but sensors will always allow the colliding objects to pass through the collision. 
+This changes the carrot's physics bodies to sensors. Setting the *sensor* value to *true* tells Chipmunk no actual collision feedback should be calculated, meaning the collision callback method does run but sensors will always allow the colliding objects to pass through the collision.
 
 You don't need an actual collision here because just touching an obstacle means instant death, just like in that other game ... what's it called ... ah, yes: *Flappy Bird*.
 
 In *MainScene.swift* you need to declare that the *MainScene* class will implement (some of) the *CCPhysicsCollisionDelegate* protocol methods. You declare that a class is [implementing a protocol in Swift](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Protocols.html) by appending *CCPhysicsCollisionDelegate* after the class' super class (CCNode), separated by a comma, as follows:
 
-	class MainScene: CCNode, CCPhysicsCollisionDelegate
+>	class MainScene: CCNode, CCPhysicsCollisionDelegate
 
 The *MainScene* class is now ready to be used as collision delegate. You should assign *MainScene* as the collision delegate class by adding the following line (anywhere) to the *didLoadFromCCB* method:
 
-    gamePhysicsNode.collisionDelegate = self
+>    gamePhysicsNode.collisionDelegate = self
 
 Finally, you can implement a collision handler method. As parameter names you have to use the collision types *level* and *hero* that you defined earlier. Add this method anywhere to *MainScene.swift*:
 
-    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, hero: CCNode!, level: CCNode!) -> Bool {
-        NSLog("TODO: handle Game Over")
-        return true
-    }
+>    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, hero: CCNode!, level: CCNode!) -> Bool {
+>        NSLog("TODO: handle Game Over")
+>        return true
+>    }
 
-The method above will be called whenever a object with collision type *hero* collides with an object of collision type *level*. 
+The method above will be called whenever a object with collision type *hero* collides with an object of collision type *level*.
 
-Publish and run the app in XCode. Any time you collide with the ground or a carrot, the *TODO* message will be printed to the console.
+Publish and run the app in Xcode. Any time you collide with the ground or a carrot, the *TODO* message will be printed to the console.
 
 ## Implementing "Game Over"
 
@@ -694,28 +682,28 @@ Instead of only showing a message in the console, you surely want to implement a
 
 First, add a Button in SpriteBuilder to the *MainScene.ccb* document. Center the button by setting its position to 50%x50%, change its *Title* to *Restart* and set it to be invisible by unchecking the *Visible* property highlighted below:
 
-![](./TutorialImages/SpriteBuilder_restartButton.png)
+![](../Tutorial-Images/SpriteBuilder_restartButton.png)
 
 Set up a code connection for the button by entering *restartButton* in the *doc root var* field. Also enter *restart* in the *Selector* field, this will be the method that runs whenever the button is pressed.
-![](./TutorialImages/SpriteBuilder_restartCodeConnect.png)
+![](../Tutorial-Images/SpriteBuilder_restartCodeConnect.png)
 
 You will make the button visible once the game over situation occurs. Now switch to Xcode and open *MainScene.swift*, then add this property at the top of the class:
 
-    weak var restartButton : CCButton!
+>    weak var restartButton : CCButton!
 
 Next, extend the collision handling method to show the restart button:
 
-    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, hero: CCNode!, level: CCNode!) -> Bool {
-        restartButton.visible = true;
-        return true
-    }
+>    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, hero: CCNode!, level: CCNode!) -> Bool {
+>        restartButton.visible = true;
+>        return true
+>    }
 
 Lastly, implement the *restart* method that will be called when the restart button is pressed:
 
-    func restart() {
-        let scene = CCBReader.loadAsScene("MainScene")
-        CCDirector.sharedDirector().replaceScene(scene)
-    }
+>    func restart() {
+>        let scene = CCBReader.loadAsScene("MainScene")
+>        CCDirector.sharedDirector().replaceScene(scene)
+>    }
 
 This method will reload the entire scene - restarting the game. Feel free to test this new functionality!
 
@@ -723,45 +711,45 @@ You will see that restarting the game works, but you don't have a real "game ove
 
 Add a *gameOver* property at the beginning of the *MainScene* class, below or next to the other properties:
 
-	var gameOver = false
+>	var gameOver = false
 
 Now add the new *triggerGameOver* method to *MainScene.m*, ideally add it next to the *restart* method as they belong together:
 
-    func triggerGameOver() {
-        if (gameOver == false) {
-            gameOver = true
-            restartButton.visible = true
-            scrollSpeed = 0
-            hero.rotation = 90
-            hero.physicsBody.allowsRotation = false
-            
-            // just in case
-            hero.stopAllActions()
-            
-            let move = CCActionEaseBounceOut(action: CCActionMoveBy(duration: 0.2, position: ccp(0, 4)))
-            let moveBack = CCActionEaseBounceOut(action: move.reverse())
-            let shakeSequence = CCActionSequence(array: [move, moveBack])
-            runAction(shakeSequence)
-        }
-    }
+>    func triggerGameOver() {
+>        if (gameOver == false) {
+>            gameOver = true
+>            restartButton.visible = true
+>            scrollSpeed = 0
+>            hero.rotation = 90
+>            hero.physicsBody.allowsRotation = false
+>
+>            // just in case
+>            hero.stopAllActions()
+>
+>            let move = CCActionEaseBounceOut(action: CCActionMoveBy(duration: 0.2, position: ccp(0, 4)))
+>            let moveBack = CCActionEaseBounceOut(action: move.reverse())
+>            let shakeSequence = CCActionSequence(array: [move, moveBack])
+>            runAction(shakeSequence)
+>        }
+>    }
 
 Then call this new method from the collision handler, instead of just making the restart button visible:
 
-    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, hero: CCNode!, level: CCNode!) -> Bool {
-    	restartButton.visible = true
-        triggerGameOver()
-        return true
-    }
+>    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, hero: CCNode!, level: CCNode!) -> Bool {
+>    	restartButton.visible = true
+>        triggerGameOver()
+>        return true
+>    }
 
 You also need to update the *touchBegan* method to ensure that the user cannot "jump" when the game is over:
 
-    override func touchBegan(touch: CCTouch!, withEvent event: CCTouchEvent!) {
-        if (gameOver == false) {
-            hero.physicsBody.applyImpulse(ccp(0, 400))
-            hero.physicsBody.applyAngularImpulse(10000)
-            sinceTouch = 0
-        }
-    }
+>    override func touchBegan(touch: CCTouch!, withEvent event: CCTouchEvent!) {
+>        if (gameOver == false) {
+>            hero.physicsBody.applyImpulse(ccp(0, 400))
+>            hero.physicsBody.applyAngularImpulse(10000)
+>            sinceTouch = 0
+>        }
+>    }
 
 You should run your app again and test the game over sequence. There is only one last point left: the points!
 
@@ -771,41 +759,41 @@ Now that the player can die, you should implement the very last step: scoring po
 
 First create a *LabelTTF* in *MainScene.ccb* to display the current score. Make the label any font you'd like. Display it in the middle of the screen near the top. Add a *doc root var* code connection to the label by entering *scoreLabel* in the corresponding field. It should look approximately like this when you're done:
 
-![](./TutorialImages/SpriteBuilder_scoreLabel.png)
+![](../Tutorial-Images/SpriteBuilder_scoreLabel.png)
 
 Now open *Obstacle.ccb* to enable physics on the *goal* node between the pipes. Make it a *Static* body and change its *Collision Type* to *goal*. Then switch to the Code Connections tab and set its *Custom Class* to *Goal*:
 
-![](./TutorialImages/SpriteBuilder_goal.png)
+![](../Tutorial-Images/SpriteBuilder_goal.png)
 
 Yow switch to Xcode to implement increasing the score every time the player collides with one of the goals, which you take as the assumption that the player has passed (or at least reached) those pipes.
 
 Create a new Swift file and call it *Goal*. The initial contents of the *Goal.swift* file should be as follows:
 
-	import Foundation
+>	import Foundation
+>
+>	class Goal: CCNode {
+>	    func didLoadFromCCB() {
+>        	physicsBody.sensor = true;
+>    	}
+>	}
 
-	class Goal: CCNode {
-	    func didLoadFromCCB() {
-        	physicsBody.sensor = true;
-    	}
-	}
-
-So basically, you want to prevent the goal from stopping the player by making it a sensor body. This property can't (yet) be set within SpriteBuilder, so you have to do it in code. 
+So basically, you want to prevent the goal from stopping the player by making it a sensor body. This property can't (yet) be set within SpriteBuilder, so you have to do it in code.
 
 Of course you could also use the collision categories and masks, but that would be more complex and error-prone to set up and use up at least one category - and there can be at most 32 unique category strings. Alternatively, you could simply `return false` from the `ccPhysicsCollisionBegin` method but that should be a last resort option, since the Chipmunk manual recommends to use sensor or category filters first, as this will avoid the overhead of processing the collision and running the collision callback method.
 
 You will use the *goal* collision type in *MainScene.swift* to detect when a player passed through a pipe. Open *MainScene.swift* and add the following two properties (score label and the score) at the beginning of the class:
 
-    var points : NSInteger = 0
-    weak var scoreLabel : CCLabelTTF!
+>    var points : NSInteger = 0
+>    weak var scoreLabel : CCLabelTTF!
 
 Now, as a very final step, implement a second collision handler in *MainScene* that will be called when the player reaches a goal. Add this method to the *MainScene* class:
 
-	func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, hero nodeA: CCNode!, goal: CCNode!) -> Bool {
-	   goal.removeFromParent()
-	   points++
-	   scoreLabel.string = String(points)
-	   return true
-	}
+>	func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, hero nodeA: CCNode!, goal: CCNode!) -> Bool {
+>	   goal.removeFromParent()
+>	   points++
+>	   scoreLabel.string = String(points)
+>	   return true
+>	}
 
 This will remove the goal node. Yes, in the Chipmunk physics engine it's legal to remove bodies during a physics collision callback method! Then the *points* counter is increased and assigned to the label's *string* property after it has been converted to a string.
 
@@ -821,12 +809,12 @@ In this project you can simply right-click the *HoppyBunnyArtPack* folder in Spr
 
 Whether you use PNG or PVR as the sprite sheet format, you will observe a common "black line" artifact that can pretty much show up anywhere in tiled graphics but is surprisingly simple to fix. First, see the highlighted issue - you may have seen that somewhere, sometime before:
 
-![](./TutorialImages/blackLine.png)
+![](../Tutorial-Images/blackLine.png)
 
 To fix this quickly, open *MainScene.swift* and navigate to the *update* method. Add the following code just below the lines that assign values to the *hero.position* and *gamePhysicsNode.position*:
 
-    gamePhysicsNode.position = ccp(round(gamePhysicsNode.position.x), 
-                                round(gamePhysicsNode.position.y))
+>    gamePhysicsNode.position = ccp(round(gamePhysicsNode.position.x),
+>                                round(gamePhysicsNode.position.y))
 
 This rounds the physics node's position to the nearest integer coordinates. A position like 115.763, 213.298 is then rounded to 116.0, 213.0. This ensures the position is on pixel boundaries, preventing the subpixel rendering artifacts above.
 
@@ -834,14 +822,17 @@ Now if you consider that the positions in cocos2d is in points, not pixels, you'
 
 Replace the above artifact fix code with the following enhanced code that properly rounds to Retina pixel boundaries:
 
-    let scale = CCDirector.sharedDirector().contentScaleFactor
-    gamePhysicsNode.position = ccp(round(gamePhysicsNode.position.x * scale) / scale, round(gamePhysicsNode.position.y * scale) / scale)
+>    let scale = CCDirector.sharedDirector().contentScaleFactor
+>    gamePhysicsNode.position = ccp(round(gamePhysicsNode.position.x * scale) / scale, round(gamePhysicsNode.position.y * scale) / scale)
 
 That's easy to explain. The content scale factor is 1.0 on non-Retina devices, and 2.0 on all Retina devices. On non-Retina devices the code has the exact same result - multiply and divide by 1.0 makes no difference. But on Retina devices, the position coordinates are first multiplied by 2.0 (i.e. 213.298 becomes 426.596) and then the rounding takes effect (new value: 427.0). Then the rounded value is divided by 2.0, resulting in a value whose fractional part is either .0 or .5 (here: 213.5). Since the position is in points, not pixels, and the Retina pixels resolution is twice the point resolution, any .5 coordinate is also on an exact pixel boundary.
 
 You can apply this "black line" artifact to any situation where they occur. Just keep in mind that you'll want to apply the fix to "parent-most" node whose position changes, and you may need to apply it on child nodes as well. For instance if the player were a tile itself, it might also need to have its position rounded to the nearest pixel coordinate.
 
-**If you enjoyed this you should apply to our [Summer Academy](http://makeschool.com/summer-academy/) and ship your own iPhone game this summer!** 
+#Solution
 
-- Original Tutorial: [benji@makegameswith.us](mailto:benji@makegameswith.us)
-- Updated and ported to Swift: [Steffen Itterheim](http://www.learn-cocos2d.com)
+<!-- TODO: ADD GITHUB LINK -->
+
+The solution to this [tutorial is available on GitHub]().
+
+![](https://static.makegameswith.us/gamernews_images/TVZ2mTmQpl/labtocat.png)
