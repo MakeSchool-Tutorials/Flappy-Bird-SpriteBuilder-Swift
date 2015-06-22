@@ -40,33 +40,9 @@ We will implement the game as follows:
 
 #Create a new project
 
-> [action]
-> The first step is to create a new SpriteBuilder project by opening SpriteBuilder and selecting `File > New > Project`. You need to select `Swift` as the *Primary Language* in the *New File* dialog as highlighted below:
->
-> ![](../Tutorial-Images/SpriteBuilder_languageSelect.png)
 
-#Adding artwork
 
-<!-- TODO: LINK ART PACK -->
 
-> [action]
-> After the project is created, you should [download our art pack for this game](). Add the art pack you just downloaded to your SpriteBuilder project by first unpacking the archive, then dragging the folder onto the File View in SpriteBuilder (lower left area where files & folders are displayed):
->
-> ![](../Tutorial-Images/SpriteBuilder_artpack.png)
-
-#Setup the Gameplay scene
-
-Before you start, you'll have to make changes to the project settings. *Hoppy Bunny Swift* is a portrait mode game and the assets for the game are provided in 2x (iPhone retina resolution).
-
-> [action]
-> Open the project settings and adjust these two settings:
->
-> ![](../Tutorial-Images/SpriteBuilder_projectSettings.png)
-
-As a test, publish your project and run it in Xcode.
-
-> [info]
-> You can publish your project by pressing the button in the top left corner of SpriteBuilder, or by selecting File -> Publish. **Remember: you must publish your changes for them to be visible in Xcode!**
 
 To open your project in Xcode, select File -> Open Project in Xcode. While in Xcode, you can run your project by going selecting Product -> Run.
 
@@ -211,11 +187,11 @@ Before we can control the bunny via Xcode, we first must make a connection to it
 
 Be sure to publish your project! Go to Xcode and navigate to *MainScene.swift*. In order to control our bunny, we need to complete the code connection. Make your  *MainScene.swift* look like the following:
 
->	import Foundation
+>        import Foundation
 >
->	class MainScene: CCNode {
->  		weak var hero: CCSprite!
->  	}
+>        class MainScene: CCNode {
+>        	weak var hero: CCSprite!
+>        }
 
 We now have what's called a reference to the bunny, which means we can manipulate the specific bunny object we placed in *MainScene.ccb* by using `hero` in *MainScene.swift*. But what good is a reference if we don't do anything with it? Let's start hopping!
 
@@ -270,20 +246,22 @@ There are a couple of things you will need to do to achieve this:
 
 The first step is to add a property to keep track of the time since the last touch. Add this declaration just below the code connection you made:
 
-    var sinceTouch : CCTime = 0
+>       var sinceTouch : CCTime = 0
 
 Next, extend the touch method to trigger the upward rotation on a touch. You implement this by applying an angular impulse to the physics body. You also need to reset the *sinceTouch* value every time a touch occurs:
 
->    override func touchBegan(touch: CCTouch!, withEvent event: CCTouchEvent!) {
->        hero.physicsBody.applyImpulse(ccp(0, 400))
->        hero.physicsBody.applyAngularImpulse(10000)
->        sinceTouch = 0
->    }
+>       override func touchBegan(touch: CCTouch!, withEvent event: CCTouchEvent!) {
+>           hero.physicsBody.applyImpulse(ccp(0, 400))
+>           hero.physicsBody.applyAngularImpulse(10000)
+>           sinceTouch = 0
+>       }
 
 This is how your *touchBegan* method should look now. Applying a high angular impulse will lead to the bunny turning upwards fast. If you like to see the bunny spinning wildly, go ahead and try the game now.
 
 You still need to limit the rotation of the bunny and start a downward rotation if no touch occurred in a while. You will do both in the update method. Add these lines at the end of your update method:
 
+> [action]
+>
 >        sinceTouch += delta
 >        hero.rotation = clampf(hero.rotation, -30, 90)
 >        if (hero.physicsBody.allowsRotation) {
