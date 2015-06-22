@@ -1,5 +1,5 @@
 ---
-title: 'Bonus: using sprite sheet'
+title: Using sprite sheet
 slug: sprite-sheets
 ---
 
