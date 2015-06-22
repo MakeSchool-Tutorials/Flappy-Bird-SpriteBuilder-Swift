@@ -40,9 +40,33 @@ We will implement the game as follows:
 
 #Create a new project
 
+> [action]
+> The first step is to create a new SpriteBuilder project by opening SpriteBuilder and selecting `File > New > Project`. You need to select `Swift` as the *Primary Language* in the *New File* dialog as highlighted below:
+>
+> ![](../Tutorial-Images/SpriteBuilder_languageSelect.png)
 
+#Adding artwork
 
+<!-- TODO: LINK ART PACK -->
 
+> [action]
+> After the project is created, you should [download our art pack for this game](). Add the art pack you just downloaded to your SpriteBuilder project by first unpacking the archive, then dragging the folder onto the File View in SpriteBuilder (lower left area where files & folders are displayed):
+>
+> ![](../Tutorial-Images/SpriteBuilder_artpack.png)
+
+#Setup the Gameplay scene
+
+Before you start, you'll have to make changes to the project settings. *Hoppy Bunny Swift* is a portrait mode game and the assets for the game are provided in 2x (iPhone retina resolution).
+
+> [action]
+> Open the project settings and adjust these two settings:
+>
+> ![](../Tutorial-Images/SpriteBuilder_projectSettings.png)
+
+As a test, publish your project and run it in Xcode.
+
+> [info]
+> You can publish your project by pressing the button in the top left corner of SpriteBuilder, or by selecting File -> Publish. **Remember: you must publish your changes for them to be visible in Xcode!**
 
 To open your project in Xcode, select File -> Open Project in Xcode. While in Xcode, you can run your project by going selecting Product -> Run.
 
@@ -190,7 +214,7 @@ Be sure to publish your project! Go to Xcode and navigate to *MainScene.swift*. 
 >        import Foundation
 >
 >        class MainScene: CCNode {
->        	weak var hero: CCSprite!
+>           weak var hero: CCSprite!
 >        }
 
 We now have what's called a reference to the bunny, which means we can manipulate the specific bunny object we placed in *MainScene.ccb* by using `hero` in *MainScene.swift*. But what good is a reference if we don't do anything with it? Let's start hopping!
@@ -201,15 +225,15 @@ Our goal is to have our bunny hop every time we touch the screen.
 
 First, let's enable touch events in *MainScene.swift* by adding the method `didLoadFromCCB()`, which is called every time a CCB file is loaded. Inside the method, we'll enable touch events. Add the following code to *MainScene.swift*:
 
->	func didLoadFromCCB() {
->		userInteractionEnabled = true
->	}
+>        func didLoadFromCCB() {
+>           userInteractionEnabled = true
+>        }
 
 Then add another method to *MainScene.swift* which applies an impulse to the bunny every time a touch is first detected:
 
->    override func touchBegan(touch: CCTouch!, withEvent event: CCTouchEvent!) {
->        hero.physicsBody.applyImpulse(ccp(0, 400))
->    }
+>        override func touchBegan(touch: CCTouch!, withEvent event: CCTouchEvent!) {
+>            hero.physicsBody.applyImpulse(ccp(0, 400))
+>        }
 
 <!--Perhaps should be more concise-->
 
@@ -225,10 +249,10 @@ As you may have noticed while testing the touch implementation, when you touch t
 
 Add the following method to *MainScene.swift* to limit the bunny's vertical velocity:
 
->    override func update(delta: CCTime) {
->    	let velocityY = clampf(Float(hero.physicsBody.velocity.y), -Float(CGFloat.max), 200)
->    	hero.physicsBody.velocity = ccp(0, CGFloat(velocityY))
->    }
+>        override func update(delta: CCTime) {
+>           let velocityY = clampf(Float(hero.physicsBody.velocity.y), -Float(CGFloat.max), 200)
+>           hero.physicsBody.velocity = ccp(0, CGFloat(velocityY))
+>        }
 
 Clamping means testing and optionally changing a given value so that it never exceeds the specified value range.
 
@@ -293,11 +317,11 @@ You are going to begin by moving the bunny with a constant speed while updating 
 
 Publish your Spritebuilder project and open Xcode. We need to define a new member variable, which we will call `scrollSpeed`. Add the following line to *MainScene.swift* near the other member variables of the class:
 
->	var scrollSpeed : CGFloat = 80
+>        var scrollSpeed : CGFloat = 80
 
 Now you need to use that variable to manipulate the scroll speed of your bunny! Add the following line to the `update(...)` method in *MainScene.swift*:
 
->	hero.position = ccp(hero.position.x + scrollSpeed * CGFloat(delta), hero.position.y)
+>        hero.position = ccp(hero.position.x + scrollSpeed * CGFloat(delta), hero.position.y)
 
 <!--General coding lesson-->
 Defining a member variable for the scroll speed rather than simply defining the hero's position to be increased by *80* * *delta* every time is an important programming practice. Variable names offer us clarity - if someone else looks at your code, or even if you revisit it next week, it may not be clear what *80* affects. Explicitly using the variable `scrollSpeed` alleviates this problem. They also offer us flexibility. Imagine we were writing a larger program which used `scrollSpeed` in several places and instead of using a variable, we used *80* every time. What happens if we decide our scroll speed is a little slow? We will need to visit every place we wrote *80* and change it. It's not hard to understand how this could quickly get messy and inefficient.
@@ -324,12 +348,12 @@ To scroll the physics node in code, you need to setup a code connection for the 
 
 Now switch to Xcode and create a new property called *gamePhysicsNode* for this code connection. Add the following line to *MainScene.swift* just below the line that declares the *hero* property:
 
->    weak var gamePhysicsNode : CCPhysicsNode!
+>        weak var gamePhysicsNode : CCPhysicsNode!
 
 Next, you are going to add a line to your update method immediately after updating the hero's position which moves the physics node:
 
->    hero.position = ccp(hero.position.x + scrollSpeed * CGFloat(delta), hero.position.y)
->    gamePhysicsNode.position = ccp(gamePhysicsNode.position.x - scrollSpeed * CGFloat(delta), gamePhysicsNode.position.y)
+>        hero.position = ccp(hero.position.x + scrollSpeed * CGFloat(delta), hero.position.y)
+>        gamePhysicsNode.position = ccp(gamePhysicsNode.position.x - scrollSpeed * CGFloat(delta), gamePhysicsNode.position.y)
 
 Test out your game again!
 
@@ -366,15 +390,15 @@ In code, you will have to add *ground1* and *ground2* properties for both ground
 
 You should also add an array that will contain both of the ground sprites for easier processing later on. Insert the following code to the *MainScene* class, between the *gamePhysicsNode* var declaration and the *update* function:
 
->    weak var ground1 : CCSprite!
->    weak var ground2 : CCSprite!
->    var grounds = [CCSprite]()  // initializes an empty array
->
->    func didLoadFromCCB() {
->    	userInteractionEnabled = true
->        grounds.append(ground1)
->        grounds.append(ground2)
->    }
+>        weak var ground1 : CCSprite!
+>        weak var ground2 : CCSprite!
+>        var grounds = [CCSprite]()  // initializes an empty array
+>    
+>        func didLoadFromCCB() {
+>           userInteractionEnabled = true
+>            grounds.append(ground1)
+>            grounds.append(ground2)
+>        }
 
 In *didLoadFromCCB*, you assign the two ground sprites to the *grounds* array to be able to loop through the ground sprites instead of having to juggle with the two identifiers *ground1* and *ground2*. The array is initialized when declared by simply assigning it an empty array. This avoids having to implement the *init* function.
 
@@ -382,14 +406,14 @@ In the update method, you will perform a check for each ground sprite to see if 
 
 Add the following chunk of code to the bottom of the `update(...)` method in *MainScene.swift*:
 
->    // loop the ground whenever a ground image was moved entirely outside the screen
->    for ground in grounds {
->        let groundWorldPosition = gamePhysicsNode.convertToWorldSpace(ground.position)
->        let groundScreenPosition = convertToNodeSpace(groundWorldPosition)
->        if groundScreenPosition.x <= (-ground.contentSize.width) {
->                ground.position = ccp(ground.position.x + ground.contentSize.width * 2, ground.position.y)
+>        // loop the ground whenever a ground image was moved entirely outside the screen
+>        for ground in grounds {
+>            let groundWorldPosition = gamePhysicsNode.convertToWorldSpace(ground.position)
+>            let groundScreenPosition = convertToNodeSpace(groundWorldPosition)
+>            if groundScreenPosition.x <= (-ground.contentSize.width) {
+>                    ground.position = ccp(ground.position.x + ground.contentSize.width * 2, ground.position.y)
+>            }
 >        }
->    }
 
 This code retrieves the current screen position for each ground sprite. Since the ground sprites aren't children of the *MainScene* (*self*), you need to get the world position of the ground sprites first, then use the *convertToNodeSpace* method to convert the position in *MainScene* (*self*) coordinate space.
 
@@ -453,34 +477,34 @@ In this step you will create the obstacles from the *Obstacle.ccb* and add them 
 
 Open Xcode and add the following properties to *MainScene.swift* right next to the other properties:
 
->    var obstacles : [CCNode] = []
->    let firstObstaclePosition : CGFloat = 280
->    let distanceBetweenObstacles : CGFloat = 160
+>        var obstacles : [CCNode] = []
+>        let firstObstaclePosition : CGFloat = 280
+>        let distanceBetweenObstacles : CGFloat = 160
 
 You will use the *obstacles* array to keep track of the obstacles created. The two constants describe the x position of the first obstacle and the distance between two obstacles.
 
 Now add the method that will take care of spawning obstacles:
 
->    func spawnNewObstacle() {
->        var prevObstaclePos = firstObstaclePosition
->        if obstacles.count > 0 {
->            prevObstaclePos = obstacles.last!.position.x
+>        func spawnNewObstacle() {
+>            var prevObstaclePos = firstObstaclePosition
+>            if obstacles.count > 0 {
+>                prevObstaclePos = obstacles.last!.position.x
+>            }
+>    
+>            // create and add a new obstacle
+>            let obstacle = CCBReader.load("Obstacle")
+>            obstacle.position = ccp(prevObstaclePos + distanceBetweenObstacles, 0)
+>            gamePhysicsNode.addChild(obstacle)
+>            obstacles.append(obstacle)
 >        }
->
->        // create and add a new obstacle
->        let obstacle = CCBReader.load("Obstacle")
->        obstacle.position = ccp(prevObstaclePos + distanceBetweenObstacles, 0)
->        gamePhysicsNode.addChild(obstacle)
->        obstacles.append(obstacle)
->    }
 
 This method creates a new obstacle by loading it from the *Obstacle.ccb* file and places it within the defined distance of the last existing obstacle. If no other obstacles already exist the position of the first obstacle will be set to the *firstObstaclePosition* constant you just defined.
 
 Now all you have to do is to call this method from the *didLoadFromCCB* method, which is called as soon as our scene's CCB document was initialized. Add this to the end of the *didLoadFromCCB* method:
 
->    spawnNewObstacle()
->    spawnNewObstacle()
->    spawnNewObstacle()
+>        spawnNewObstacle()
+>        spawnNewObstacle()
+>        spawnNewObstacle()
 
 This spawns three obstacles initially. You can try out the game now. You should see exactly three obstacles passing by, all at the same height, followed by - nothingness.
 
@@ -492,19 +516,19 @@ You will now implement a mechanism that checks if an obstacle moved off the scre
 
 Add these lines to the end of your *update* method:
 
->    for obstacle in obstacles.reverse() {
->        let obstacleWorldPosition = gamePhysicsNode.convertToWorldSpace(obstacle.position)
->        let obstacleScreenPosition = convertToNodeSpace(obstacleWorldPosition)
->
->        // obstacle moved past left side of screen?
->        if obstacleScreenPosition.x < (-obstacle.contentSize.width) {
->            obstacle.removeFromParent()
->            obstacles.removeAtIndex(find(obstacles, obstacle)!)
->
->            // for each removed obstacle, add a new one
->            spawnNewObstacle()
+>        for obstacle in obstacles.reverse() {
+>            let obstacleWorldPosition = gamePhysicsNode.convertToWorldSpace(obstacle.position)
+>            let obstacleScreenPosition = convertToNodeSpace(obstacleWorldPosition)
+>    
+>            // obstacle moved past left side of screen?
+>            if obstacleScreenPosition.x < (-obstacle.contentSize.width) {
+>                obstacle.removeFromParent()
+>                obstacles.removeAtIndex(find(obstacles, obstacle)!)
+>    
+>                // for each removed obstacle, add a new one
+>                spawnNewObstacle()
+>            }
 >        }
->    }
 
 The basics of this code should remind you of the ground looping we implemented previously. It checks whether obstacles are off the screen and if so, removes that obstacle, then spawns a new obstacle.
 
@@ -526,24 +550,24 @@ Once you have setup everything, publish and create a new Swift class named *Obst
 
 Here's the complete content of the *Obstacle.swift* file. Add the following code to *Obstacle.swift*:
 
->	import Foundation
->
->	class Obstacle : CCNode {
->		weak var topCarrot : CCNode!
->		weak var bottomCarrot : CCNode!
->
->		let topCarrotMinimumPositionY : CGFloat = 128
->		let bottomCarrotMaximumPositionY : CGFloat = 440
->		let carrotDistance : CGFloat = 142
->
->		func setupRandomPosition() {
->            let randomPrecision : UInt32 = 100
->            let random = CGFloat(arc4random_uniform(randomPrecision)) / CGFloat(randomPrecision)
->            let range = bottomCarrotMaximumPositionY - carrotDistance - topCarrotMinimumPositionY
->            topCarrot.position = ccp(topCarrot.position.x, topCarrotMinimumPositionY + (random * range));
->            bottomCarrot.position = ccp(bottomCarrot.position.x, topCarrot.position.y + carrotDistance);
->		}
->    }
+>        import Foundation
+>     
+>        class Obstacle : CCNode {
+>            weak var topCarrot : CCNode!
+>            weak var bottomCarrot : CCNode!
+>     
+>            let topCarrotMinimumPositionY : CGFloat = 128
+>            let bottomCarrotMaximumPositionY : CGFloat = 440
+>            let carrotDistance : CGFloat = 142
+>     
+>            func setupRandomPosition() {
+>                 let randomPrecision : UInt32 = 100
+>                 let random = CGFloat(arc4random_uniform(randomPrecision)) / CGFloat(randomPrecision)
+>                 let range = bottomCarrotMaximumPositionY - carrotDistance - topCarrotMinimumPositionY
+>                 topCarrot.position = ccp(topCarrot.position.x, topCarrotMinimumPositionY + (random * range));
+>                 bottomCarrot.position = ccp(bottomCarrot.position.x, topCarrot.position.y + carrotDistance);
+>            }
+>        }
 
 
 What is happening here?
@@ -560,18 +584,18 @@ The random value is used to define which portion of the possible carrot position
 
 You can now use this method to generate random obstacles in our game. In *MainScene.swift* change the *spawnNewObstacle* method used to load an *Obstacle.ccb* document. All you really need to change is the CCBReader line to declare the value returned and assigned to the *obstacle*  constant as being of class *Obstacle*, then calling the *setupRandomPosition* method after assigning the initial position. The lines you need to replace respectively add are marked with appended comments:
 
->    func spawnNewObstacle() {
->        var prevObstaclePos = firstObstaclePosition
->        if obstacles.count > 0 {
->            prevObstaclePos = obstacles.last!.position.x
+>        func spawnNewObstacle() {
+>            var prevObstaclePos = firstObstaclePosition
+>            if obstacles.count > 0 {
+>                prevObstaclePos = obstacles.last!.position.x
+>            }
+>    
+>            let obstacle = CCBReader.load("Obstacle") as! Obstacle   // replace this line
+>            obstacle.position = ccp(prevObstaclePos + distanceBetweenObstacles, 0)
+>            obstacle.setupRandomPosition()   // add this line
+>            gamePhysicsNode.addChild(obstacle)
+>            obstacles.append(obstacle)
 >        }
->
->        let obstacle = CCBReader.load("Obstacle") as! Obstacle   // replace this line
->        obstacle.position = ccp(prevObstaclePos + distanceBetweenObstacles, 0)
->        obstacle.setupRandomPosition()   // add this line
->        gamePhysicsNode.addChild(obstacle)
->        obstacles.append(obstacle)
->    }
 
 In the above code the return value of *CCBReader.load()* is cast to *as! Obstacle* so that we can treat the loaded *Obstacle.ccb* as an instance of the *Obstacle* class. Additionally, the new *setupRandomPosition* method you just implemented is called after loading an obstacle.
 
@@ -591,15 +615,15 @@ Then select that *obstacles layer* node and set up a code connection. In the *do
 
 Back in Xcode, add the following property to the end of the properties list in the *MainScene.swift* file:
 
->    weak var obstaclesLayer : CCNode!
+>        weak var obstaclesLayer : CCNode!
 
 Finally, update the *spawnNewObstacle* method so that new obstacles aren't added to the *gamePhysicsNode* anymore, but rather the new *obstaclesLayer* (I've omitted some code, and commented the line you need to replace):
 
->    let obstacle = CCBReader.load("Obstacle") as! Obstacle
->    obstacle.position = ccp(prevObstaclePos + distanceBetweenObstacles, 0)
->    obstacle.setupRandomPosition()
->    obstaclesLayer.addChild(obstacle)   // replace this line
->    obstacles.append(obstacle)
+>        let obstacle = CCBReader.load("Obstacle") as! Obstacle
+>        obstacle.position = ccp(prevObstaclePos + distanceBetweenObstacles, 0)
+>        obstacle.setupRandomPosition()
+>        obstaclesLayer.addChild(obstacle)   // replace this line
+>        obstacles.append(obstacle)
 
 Now you can run the App and see the pipes drawn behind the ground:
 
@@ -621,10 +645,10 @@ You set the collisionType to "level" to implement a collision callback method la
 
 Open *Obstacle.swift* in Xcode and add the *didLoadFromCCB* method to the *Obstacle* class with the following two lines:
 
->    func didLoadFromCCB() {
->        topCarrot.physicsBody.sensor = true
->        bottomCarrot.physicsBody.sensor = true
->    }
+>        func didLoadFromCCB() {
+>            topCarrot.physicsBody.sensor = true
+>            bottomCarrot.physicsBody.sensor = true
+>        }
 
 This changes the carrot's physics bodies to sensors. Setting the *sensor* value to *true* tells Chipmunk no actual collision feedback should be calculated, meaning the collision callback method does run but sensors will always allow the colliding objects to pass through the collision.
 
@@ -632,18 +656,18 @@ You don't need an actual collision here because just touching an obstacle means 
 
 In *MainScene.swift* you need to declare that the *MainScene* class will implement (some of) the *CCPhysicsCollisionDelegate* protocol methods. You declare that a class is [implementing a protocol in Swift](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Protocols.html) by appending *CCPhysicsCollisionDelegate* after the class' super class (CCNode), separated by a comma, as follows:
 
->	class MainScene: CCNode, CCPhysicsCollisionDelegate
+>       class MainScene: CCNode, CCPhysicsCollisionDelegate
 
 The *MainScene* class is now ready to be used as collision delegate. You should assign *MainScene* as the collision delegate class by adding the following line (anywhere) to the *didLoadFromCCB* method:
 
->    gamePhysicsNode.collisionDelegate = self
+>        gamePhysicsNode.collisionDelegate = self
 
 Finally, you can implement a collision handler method. As parameter names you have to use the collision types *level* and *hero* that you defined earlier. Add this method anywhere to *MainScene.swift*:
 
->    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, hero: CCNode!, level: CCNode!) -> Bool {
->        NSLog("TODO: handle Game Over")
->        return true
->    }
+>        func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, hero: CCNode!, level: CCNode!) -> Bool {
+>            NSLog("TODO: handle Game Over")
+>            return true
+>        }
 
 The method above will be called whenever a object with collision type *hero* collides with an object of collision type *level*.
 
@@ -671,17 +695,17 @@ You will make the button visible once the game over situation occurs. Now switch
 
 Next, extend the collision handling method to show the restart button:
 
->    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, hero: CCNode!, level: CCNode!) -> Bool {
->        restartButton.visible = true;
->        return true
->    }
+>        func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, hero: CCNode!, level: CCNode!) -> Bool {
+>            restartButton.visible = true;
+>            return true
+>        }
 
 Lastly, implement the *restart* method that will be called when the restart button is pressed:
 
->    func restart() {
->        let scene = CCBReader.loadAsScene("MainScene")
->        CCDirector.sharedDirector().replaceScene(scene)
->    }
+>        func restart() {
+>            let scene = CCBReader.loadAsScene("MainScene")
+>            CCDirector.sharedDirector().replaceScene(scene)
+>        }
 
 This method will reload the entire scene - restarting the game. Feel free to test this new functionality!
 
@@ -689,45 +713,45 @@ You will see that restarting the game works, but you don't have a real "game ove
 
 Add a *gameOver* property at the beginning of the *MainScene* class, below or next to the other properties:
 
->	var gameOver = false
+>       var gameOver = false
 
 Now add the new *triggerGameOver* method to *MainScene.m*, ideally add it next to the *restart* method as they belong together:
 
->    func triggerGameOver() {
->        if (gameOver == false) {
->            gameOver = true
->            restartButton.visible = true
->            scrollSpeed = 0
->            hero.rotation = 90
->            hero.physicsBody.allowsRotation = false
->
->            // just in case
->            hero.stopAllActions()
->
->            let move = CCActionEaseBounceOut(action: CCActionMoveBy(duration: 0.2, position: ccp(0, 4)))
->            let moveBack = CCActionEaseBounceOut(action: move.reverse())
->            let shakeSequence = CCActionSequence(array: [move, moveBack])
->            runAction(shakeSequence)
+>        func triggerGameOver() {
+>            if (gameOver == false) {
+>                gameOver = true
+>                restartButton.visible = true
+>                scrollSpeed = 0
+>                hero.rotation = 90
+>                hero.physicsBody.allowsRotation = false
+>    
+>                // just in case
+>                hero.stopAllActions()
+>    
+>                let move = CCActionEaseBounceOut(action: CCActionMoveBy(duration: 0.2, position: ccp(0, 4)))
+>                let moveBack = CCActionEaseBounceOut(action: move.reverse())
+>                let shakeSequence = CCActionSequence(array: [move, moveBack])
+>                runAction(shakeSequence)
+>            }
 >        }
->    }
 
 Then call this new method from the collision handler, instead of just making the restart button visible:
 
->    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, hero: CCNode!, level: CCNode!) -> Bool {
->    	restartButton.visible = true
->        triggerGameOver()
->        return true
->    }
+>        func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, hero: CCNode!, level: CCNode!) -> Bool {
+>           restartButton.visible = true
+>            triggerGameOver()
+>            return true
+>        }
 
 You also need to update the *touchBegan* method to ensure that the user cannot "jump" when the game is over:
 
->    override func touchBegan(touch: CCTouch!, withEvent event: CCTouchEvent!) {
->        if (gameOver == false) {
->            hero.physicsBody.applyImpulse(ccp(0, 400))
->            hero.physicsBody.applyAngularImpulse(10000)
->            sinceTouch = 0
+>        override func touchBegan(touch: CCTouch!, withEvent event: CCTouchEvent!) {
+>            if (gameOver == false) {
+>                hero.physicsBody.applyImpulse(ccp(0, 400))
+>                hero.physicsBody.applyAngularImpulse(10000)
+>                sinceTouch = 0
+>            }
 >        }
->    }
 
 You should run your app again and test the game over sequence. There is only one last point left: the points!
 
@@ -747,13 +771,13 @@ Yow switch to Xcode to implement increasing the score every time the player coll
 
 Create a new Swift file and call it *Goal*. The initial contents of the *Goal.swift* file should be as follows:
 
->	import Foundation
->
->	class Goal: CCNode {
->	    func didLoadFromCCB() {
->        	physicsBody.sensor = true;
->    	}
->	}
+>       import Foundation
+>    
+>       class Goal: CCNode {
+>           func didLoadFromCCB() {
+>               physicsBody.sensor = true;
+>           }
+>       }
 
 So basically, you want to prevent the goal from stopping the player by making it a sensor body. This property can't (yet) be set within SpriteBuilder, so you have to do it in code.
 
@@ -761,17 +785,17 @@ Of course you could also use the collision categories and masks, but that would 
 
 You will use the *goal* collision type in *MainScene.swift* to detect when a player passed through a pipe. Open *MainScene.swift* and add the following two properties (score label and the score) at the beginning of the class:
 
->    var points : NSInteger = 0
->    weak var scoreLabel : CCLabelTTF!
+>        var points : NSInteger = 0
+>        weak var scoreLabel : CCLabelTTF!
 
 Now, as a very final step, implement a second collision handler in *MainScene* that will be called when the player reaches a goal. Add this method to the *MainScene* class:
 
->	func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, hero nodeA: CCNode!, goal: CCNode!) -> Bool {
->	   goal.removeFromParent()
->	   points++
->	   scoreLabel.string = String(points)
->	   return true
->	}
+>        func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, hero nodeA: CCNode!, goal: CCNode!) -> Bool {
+>           goal.removeFromParent()
+>           points++
+>           scoreLabel.string = String(points)
+>           return true
+>        }
 
 This will remove the goal node. Yes, in the Chipmunk physics engine it's legal to remove bodies during a physics collision callback method! Then the *points* counter is increased and assigned to the label's *string* property after it has been converted to a string.
 
@@ -791,8 +815,8 @@ Whether you use PNG or PVR as the sprite sheet format, you will observe a common
 
 To fix this quickly, open *MainScene.swift* and navigate to the *update* method. Add the following code just below the lines that assign values to the *hero.position* and *gamePhysicsNode.position*:
 
->    gamePhysicsNode.position = ccp(round(gamePhysicsNode.position.x),
->                                round(gamePhysicsNode.position.y))
+>        gamePhysicsNode.position = ccp(round(gamePhysicsNode.position.x),
+>                                    round(gamePhysicsNode.position.y))
 
 This rounds the physics node's position to the nearest integer coordinates. A position like 115.763, 213.298 is then rounded to 116.0, 213.0. This ensures the position is on pixel boundaries, preventing the subpixel rendering artifacts above.
 
@@ -800,8 +824,8 @@ Now if you consider that the positions in cocos2d is in points, not pixels, you'
 
 Replace the above artifact fix code with the following enhanced code that properly rounds to Retina pixel boundaries:
 
->    let scale = CCDirector.sharedDirector().contentScaleFactor
->    gamePhysicsNode.position = ccp(round(gamePhysicsNode.position.x * scale) / scale, round(gamePhysicsNode.position.y * scale) / scale)
+>        let scale = CCDirector.sharedDirector().contentScaleFactor
+>        gamePhysicsNode.position = ccp(round(gamePhysicsNode.position.x * scale) / scale, round(gamePhysicsNode.position.y * scale) / scale)
 
 That's easy to explain. The content scale factor is 1.0 on non-Retina devices, and 2.0 on all Retina devices. On non-Retina devices the code has the exact same result - multiply and divide by 1.0 makes no difference. But on Retina devices, the position coordinates are first multiplied by 2.0 (i.e. 213.298 becomes 426.596) and then the rounding takes effect (new value: 427.0). Then the rounded value is divided by 2.0, resulting in a value whose fractional part is either .0 or .5 (here: 213.5). Since the position is in points, not pixels, and the Retina pixels resolution is twice the point resolution, any .5 coordinate is also on an exact pixel boundary.
 
