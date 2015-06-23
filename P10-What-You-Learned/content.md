@@ -1,5 +1,13 @@
-#Hoppy Bunny
-###Wrap-up and Group Discussion
+---
+title: "What you have learned"
+slug: what-you-learned
+---
+
+Congrats again on finishing *Hoppy Bunny* and building your first iPhone game!
+
+At this point you have been introduced to many concepts in iOS game development. Most of these concepts will be reviewed and further explained in later tutorials so you'll get a chance to revist them later :)
+
+Let's take a look at what you have learned so far.
 
 ![](./game.png)
 
