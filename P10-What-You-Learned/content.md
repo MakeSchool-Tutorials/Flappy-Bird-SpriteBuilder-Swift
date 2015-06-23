@@ -41,7 +41,7 @@ At the beginning of the Hoppy Bunny tutorials you learned how to create a new Sp
 
 * **Update loop**: Update loops are called between every frame. They can be created by overriding `update`.
 
-* **Impulses**: `addImpulse` adds directly to the velocity property of a physics body. `addAngularImpulse` adds directly to the angular velocity property of a physics body.
+* **Impulses**: `applyImpulse` adds directly to the velocity property of a physics body. `applyAngularImpulse` adds directly to the angular velocity property of a physics body.
 
 ###Scrolling the World
 
