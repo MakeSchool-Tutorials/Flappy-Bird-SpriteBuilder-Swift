@@ -79,6 +79,8 @@ Update loops are called between every frame. They can be created by overriding `
 
 ##Impulses
 
+`addImpulse` adds directly to the velocity property of a physics body. `addAngularImpulse` adds directly to the angular velocity property of a physics body.
+
 #Scrolling the world
 
 ##Implementing a "camera"
@@ -149,4 +151,4 @@ Black line artifacts happen because a sprite is positioned at a non-whole number
 
 The solution to this [tutorial is available on GitHub](https://github.com/MakeSchool/HoppyBunny-SpriteBuilder-Swift).
 
-![](https://static.makegameswith.us/gamernews_images/TVZ2mTmQpl/labtocat.png)
+![](../Tutorial-Images/labtocat.png)
