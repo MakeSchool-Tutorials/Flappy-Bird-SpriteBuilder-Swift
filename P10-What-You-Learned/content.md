@@ -1,4 +1,7 @@
+#Hoppy Bunny
+###Wrap-up and Group Discussion
 
+![](./game.png)
 
 ###Creating a New Project
 
