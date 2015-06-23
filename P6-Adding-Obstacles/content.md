@@ -91,13 +91,13 @@ Now all you have to do is to call this method from the *didLoadFromCCB* method, 
 > [action]
 > Add this to the end of the *didLoadFromCCB* method:
 >
->        spawnNewObstacle()
->        spawnNewObstacle()
->        spawnNewObstacle()
+>        for i in 0...2 {
+>            spawnNewObstacle()
+>        }
 
 This spawns three obstacles initially. You can try out the game now. You should see exactly three obstacles passing by, all at the same height, followed by - nothingness.
 
-This will be our next task: spawning an endless number of obstacles!
+Our next task will be to continue spawning obstacles endlessly!
 
 #Spawning endless obstacles
 
