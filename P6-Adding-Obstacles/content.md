@@ -16,7 +16,7 @@ You will construct the obstacles with two carrots, one at the top and one at the
 > To the *root node*:
 > 
 > *  add carrot_top.png
-> *  add carrot_top.png
+> *  add carrot_bottom.png
 > *  add CCNode
 > *  set *content size* to `(80, 568)`
 > *  set *anchor point* to `(0, 0)`
@@ -40,6 +40,7 @@ You will construct the obstacles with two carrots, one at the top and one at the
 > *  set *reference corner* to `Top-left`
 > *  set *position* to `(22, 576)`
 > *  set *anchor point* to `(0, 0)`
+> *  set *content size* to `(30, 600)`
 > 
 > Your obstacle should look something like this:
 > 
