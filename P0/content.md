@@ -217,7 +217,7 @@ Let's [just redefine gravity](https://www.youtube.com/watch?v=5xdbPhnfFEI) by se
 
 ## Making Code Connections
 
-Before we can control the bunny via XCode, we first must make a connection to it in SpriteBuilder. To do this, select your bunny in *MainScene.ccb* and go to the code connections tab (second tab on the top-right). Give the bunny the variable name *hero*, and make sure it's a Doc root var:
+Before we can control the bunny via XCode, we first must make a connection to it in SpriteBuilder. To do this, select your bunny in *MainScene.ccb*. **Make sure you've selected the bunny - a common mistake is to create code connections with the wrong CCNodes.** Go to the code connections tab (second tab on the top-right) and give the bunny the *Doc root var* name *hero*:
 
 ![](./TutorialImages/SpriteBuilder_connectHero.png)
 
@@ -235,7 +235,7 @@ We now have what's called a reference to the bunny, which means we can manipulat
 
 Our goal is to have our bunny hop every time we touch the screen.
 
-First, let's enable touch events in *MainScene.swift* by adding the method `didLoadFromCCB()`, which is called every time a CCB file is loaded. Inside the method, we'll enable touch events. Add the following code to *MainScene.swift*:
+First, let's enable touch events in *MainScene.swift* by adding the method `didLoadFromCCB()`, which is called every time a CCB file is loaded. Inside the method, we'll enable touch events. Add the following method to the *MainScene* class - that is, within the brackets `{}` in *MainScene.swift*, the same place we just put our `hero` code connection:
 
 	func didLoadFromCCB() {
 		userInteractionEnabled = true
