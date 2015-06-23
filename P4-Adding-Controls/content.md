@@ -30,6 +30,8 @@ Be sure to publish your project!
 >
 >        class MainScene: CCNode {
 >           weak var hero: CCSprite!
+>
+>
 >        }
 
 We now have what's called a reference to the bunny, which means we can manipulate the specific bunny object we placed in *MainScene.ccb* by using `hero` in *MainScene.swift*. But what good is a reference if we don't do anything with it? Let's start hopping!
