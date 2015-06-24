@@ -101,7 +101,7 @@ You will see that restarting the game works, but you don't have a real "game ove
 >
 >       var gameOver = false
 >
-> Now add the new *triggerGameOver* method to *MainScene.m*, ideally add it next to the *restart* method as they belong together:
+> Now add the new *triggerGameOver* method to *MainScene.swift*, ideally add it next to the *restart* method as they belong together:
 >
 >        func triggerGameOver() {
 >            if (gameOver == false) {
