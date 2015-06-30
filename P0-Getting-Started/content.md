@@ -25,3 +25,7 @@ The final game will look like this:
 ![](../Tutorial-Images/finalProject.gif)
 
 Let's get started with *Hoppy Bunny Swift!*
+
+#Feedback
+
+If you have feedback on this tutorial or find any mistakes, please open issues on the [GitHub Repository](https://github.com/MakeSchool-Tutorials/Flappy-Bird-SpriteBuilder-Swift).
