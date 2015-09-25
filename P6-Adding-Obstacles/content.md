@@ -14,36 +14,36 @@ You will construct the obstacles with two carrots, one at the top and one at the
 
 > [action]
 > To the *root node*:
-> 
+>
 > *  add carrot_top.png
 > *  add carrot_bottom.png
 > *  add CCNode
 > *  set *content size* to `(80, 568)`
 > *  set *anchor point* to `(0, 0)`
-> 
+>
 > To *carrot_top*:
-> 
+>
 > *  set *reference corner* to `Top-left`
 > *  set *X position* to `50%`
 > *  set *Y position* to `128.0`
 > *  set *anchor point* to `(0.5, 0)`
-> 
+>
 > To *carrot_bottom*:
-> 
+>
 > *  set *reference corner* to `Top-left`
 > *  set *X position* to `50%`
 > *  set *Y position* to `228.0`
 > *  set *anchor point* to `(0.5, 1)`
-> 
+>
 > To *CCNode*:
-> 
+>
 > *  set *reference corner* to `Top-left`
 > *  set *position* to `(22, 576)`
 > *  set *anchor point* to `(0, 0)`
 > *  set *content size* to `(30, 600)`
-> 
+>
 > Your obstacle should look something like this:
-> 
+>
 > ![](../Tutorial-Images/SpriteBuilder_obstacle.png)
 
 It is important to get the pipe's positions right, to ensure that the obstacles look the same on an 3.5-inch and a 4-inch phone.
@@ -91,7 +91,7 @@ Now all you have to do is to call this method from the *didLoadFromCCB* method, 
 > [action]
 > Add this to the end of the *didLoadFromCCB* method:
 >
->        for i in 0...2 {
+>        for _ in 0...2 {
 >            spawnNewObstacle()
 >        }
 
@@ -106,14 +106,14 @@ You will now implement a mechanism that checks if an obstacle moved off the scre
 > [action]
 > Add these lines to the end of your *update* method:
 >
->        for obstacle in obstacles.reverse() {
+>        for obstacle in Array(obstacles.reverse()) {
 >            let obstacleWorldPosition = gamePhysicsNode.convertToWorldSpace(obstacle.position)
 >            let obstacleScreenPosition = convertToNodeSpace(obstacleWorldPosition)
 >    
 >            // obstacle moved past left side of screen?
 >            if obstacleScreenPosition.x < (-obstacle.contentSize.width) {
 >                obstacle.removeFromParent()
->                obstacles.removeAtIndex(find(obstacles, obstacle)!)
+>                obstacles.removeAtIndex(obstacles.indexOf(obstacle))
 >    
 >                // for each removed obstacle, add a new one
 >                spawnNewObstacle()
@@ -174,7 +174,7 @@ Next the method *setupRandomPosition* uses the defined border values to calculat
 
 The random value is used to define which portion of the possible carrot position Y range will be used. It uses the result to position the top carrot and positions the bottom carrot at the desired distances.
 
-You can now use this method to generate random obstacles in our game. In *MainScene.swift* change the *spawnNewObstacle* method used to load an *Obstacle.ccb* document. All you really need to change is the CCBReader line to declare the value returned and assigned to the *obstacle*  constant as being of class *Obstacle*, then calling the *setupRandomPosition* method after assigning the initial position. 
+You can now use this method to generate random obstacles in our game. In *MainScene.swift* change the *spawnNewObstacle* method used to load an *Obstacle.ccb* document. All you really need to change is the CCBReader line to declare the value returned and assigned to the *obstacle*  constant as being of class *Obstacle*, then calling the *setupRandomPosition* method after assigning the initial position.
 
 > [action]
 > The lines you need to replace respectively add are marked with appended comments:

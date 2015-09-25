@@ -40,7 +40,7 @@ The *MainScene* class is now ready to be used as collision delegate.
 >
 >        gamePhysicsNode.collisionDelegate = self
 
-Finally, you can implement a collision handler method. As parameter names you have to use the collision types *level* and *hero* that you defined earlier. 
+Finally, you can implement a collision handler method. As parameter names you have to use the collision types *level* and *hero* that you defined earlier.
 
 > [action]
 > Add this method to the *MainScene* class:
@@ -89,7 +89,7 @@ You will make the button visible once the game over situation occurs.
 >
 >        func restart() {
 >            let scene = CCBReader.loadAsScene("MainScene")
->            CCDirector.sharedDirector().presentScene(scene)
+>            CCDirector.sharedDirector().replaceScene(scene)
 >        }
 
 This method will reload the entire scene - restarting the game. Feel free to test this new functionality!
