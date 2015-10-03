@@ -22,7 +22,7 @@ If you complete this tutorial you will learn how to:
 
 The final game will look like this:
 
-![](../Tutorial-Images/finalProject.gif)
+![The final Flappy Bird clone](../Tutorial-Images/finalProject.gif)
 
 Let's get started with *Hoppy Bunny Swift!*
 
