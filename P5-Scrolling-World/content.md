@@ -43,7 +43,7 @@ To scroll the physics node in code, you need to setup a code connection for the 
 > [action]
 > Select the physics node, then enter *gamePhysicsNode* in the *doc root var* field:
 >
-> ![](../Tutorial-Images/SpriteBuilder_connectPhysics.png)
+> ![Select the physics node](../Tutorial-Images/SpriteBuilder_connectPhysics.png)
 >
 >Now switch to Xcode and create a new property called *gamePhysicsNode* for this code connection. Add the following line to *MainScene.swift* just below the line that declares the *hero* property:
 >
@@ -69,7 +69,7 @@ The first step will be adding a second ground sprite to the *MainScene.ccb*.
 >
 > The easiest way to create another ground sprite is to duplicate the existing one via *Edit => Copy* and *Edit => Paste*. This has the advantage that you can make all settings below to one sprite, then copy it and only apply properties that are different. Alternatively you can just add a second ground image to the stage.
 >
-> ![](../Tutorial-Images/SpriteBuilder_documentBorder.png)
+> ![Adding a second ground image](../Tutorial-Images/SpriteBuilder_documentBorder.png)
 >
 > Drag the duplicated ground sprite below the *CCPhysicsNode*, if necessary. Set its position to (423,12). *423* is the width of the ground image, *12* is the y-Position of the first ground sprite. **Also set the anchor point to (0, 0.5), the same as the first ground sprite**. This way the two ground sprites will line up nicely.
 >
