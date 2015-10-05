@@ -8,7 +8,7 @@ Before you start, you'll have to make changes to the project settings. *Hoppy Bu
 > [action]
 > Open the project settings and adjust these two settings:
 >
-> ![](../Tutorial-Images/SpriteBuilder_projectSettings.png)
+> ![Adjusting project settings](../Tutorial-Images/SpriteBuilder_projectSettings.png)
 
 As a test, publish your project and run it in Xcode.
 
@@ -29,7 +29,7 @@ As a test, publish your project and run it in Xcode.
 > [action]
 > Add the background image by dragging `background.png` onto the stage:
 >
-> ![](../Tutorial-Images/SpriteBuilder_background.png)
+> ![Adding background image](../Tutorial-Images/SpriteBuilder_background.png)
 >
 > Set the reference corner to the top left. This has the effect that the position of the background will be interpreted as being relative to the top left corner, with the positive Y axis pointing downwards (just like in Cocoa/UIKit). Set position to (0,0) and anchor point to (0,1).
 
@@ -38,14 +38,14 @@ The background will now stick to the top left corner, independent of the device 
 > [info]
 > You can preview how your app will look on other devices by toggling through the Resolution settings:
 >
-> ![](../Tutorial-Images/SpriteBuilder_screenRes.png)
+> ![Previewing the app](../Tutorial-Images/SpriteBuilder_screenRes.png)
 
 #Add the ground image
 
 > [action]
 > Add the ground image by dragging it onto the stage:
 >
-> ![](../Tutorial-Images/SpriteBuilder_ground.png)
+> ![Adding the ground image](../Tutorial-Images/SpriteBuilder_ground.png)
 
 You'll notice the ground image extends beyond the screen border. Doing this ensures it will cover the screen, regardless of the current device's screensize.
 
@@ -59,7 +59,7 @@ The *x-position* value of 0 is important. This keeps the ground on the left edge
 > [action]
 > Add the clouds to the scene:
 >
-> ![](../Tutorial-Images/SpriteBuilder_clouds.png)
+> ![Adding the clouds](../Tutorial-Images/SpriteBuilder_clouds.png)
 >
 > Set the reference corner to the top left. As position use either `(187, 134)`, or any other value you think looks good. Enjoy this creative freedom. ;)
 
@@ -70,11 +70,11 @@ Now you're going to create a new *CCB-File* for the bunny and add a sprite anima
 > [action]
 > Create a new *CCB-File* of type *Sprite*:
 >
-> ![](../Tutorial-Images/SpriteBuilder_heroCCB.png)
+> ![Creating the CCB file of type sprite](../Tutorial-Images/SpriteBuilder_heroCCB.png)
 >
 > Select the CCSprite in the Node Tree and set its sprite frame property to *bunny1.png* from the art pack:
 >
-> ![](../Tutorial-Images/SpriteBuilder_bunny.png)
+> ![Set the sprite frame property](../Tutorial-Images/SpriteBuilder_bunny.png)
 
 #Animate the bunny
 
@@ -83,11 +83,11 @@ The animation you are about to define will be 1 second long and infinitely loopi
 > [action]
 > First, you need to set the timeline duration to 1 second:
 >
-> ![](../Tutorial-Images/SpriteBuilder_bunnyDuration.gif)
+> ![Set the timeline duration](../Tutorial-Images/SpriteBuilder_bunnyDuration.gif)
 >
 > Next, insert six evenly spaced *Sprite Frame Keyframes*, which will repeatedly switch between the two images *bunny1.png* and *bunny2.png*. This is how you insert a Sprite Frame Keyframe:
 >
-> ![](../Tutorial-Images/SpriteBuilder_animationKeyframe.png)
+> ![Inserting a sprite frame keyframe](../Tutorial-Images/SpriteBuilder_animationKeyframe.png)
 >
 > Note that the *CCSprite* needs to be selected in the timeline in order to add a Keyframe. Add 6 of these Sprite Frames and use the *Sprite Frame* property of the *CCSprite* to switch between the two different bunny images.
 >
@@ -95,4 +95,4 @@ The animation you are about to define will be 1 second long and infinitely loopi
 >
 > The last step is to chain the timeline to itself so that the animation is repeated infinitely. This can be done at the bottom of the timeline bar. Once you are done, the result should look like this:
 >
-> ![](../Tutorial-Images/SpriteBuilder_bunnyHopping.gif)
+> ![Chaining the timeline](../Tutorial-Images/SpriteBuilder_bunnyHopping.gif)
