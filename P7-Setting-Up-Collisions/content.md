@@ -8,7 +8,7 @@ You are going to set up collision handling so that your game finally becomes as 
 > [action]
 > First, open *Obstacle.ccb* in SpriteBuilder in order to enable physics for the carrots. Select one of the two carrots, switch to the Item Physics tab and check the *Enable Physics* checkbox. Change the body type to *Static* and enter *level* in the *Collision Type* field, as shown in the screenshot below. Do this for both pipes.
 >
-> ![](../Tutorial-Images/SpriteBuilder_carrotPhysics.png)
+> ![Carrot physics](../Tutorial-Images/SpriteBuilder_carrotPhysics.png)
 >
 > Then open *MainScene.ccb* and set the *Collision Type* for both ground nodes to *level* as well.
 >
@@ -66,10 +66,10 @@ Instead of only showing a message in the console, you surely want to implement a
 > [action]
 > First, add a Button in SpriteBuilder to the *MainScene.ccb* document (make sure it is NOT a child of the physics node). Center the button by setting its position to (50%,50%), change its *Title* to *Restart* and set it to be invisible by unchecking the *Visible* property highlighted below:
 >
-> ![](../Tutorial-Images/SpriteBuilder_restartButton.png)
+> ![Restart button](../Tutorial-Images/SpriteBuilder_restartButton.png)
 >
 > Set up a code connection for the button by entering *restartButton* in the *doc root var* field. Also enter *restart* in the *Selector* field, this will be the method that runs whenever the button is pressed.
-![](../Tutorial-Images/SpriteBuilder_restartCodeConnect.png)
+![Connecting restart button to code](../Tutorial-Images/SpriteBuilder_restartCodeConnect.png)
 
 You will make the button visible once the game over situation occurs.
 
