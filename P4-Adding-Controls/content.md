@@ -10,7 +10,7 @@ At the moment the bunny drops to the floor (slowly) and there is nothing a playe
 > [action]
 > Let's [just redefine gravity](https://www.youtube.com/watch?v=5xdbPhnfFEI) by selecting the physics node in the *MainScene.ccb*, then increase the gravity property to -700 to make the bunny drop faster:
 >
-> ![](../Tutorial-Images/SpriteBuilder_gravity.png)
+> ![Increase gravity](../Tutorial-Images/SpriteBuilder_gravity.png)
 
 #Making code connections
 
@@ -19,7 +19,7 @@ Before we can control the bunny via Xcode, we first must make a connection to it
 > [action]
 > Select your bunny in *MainScene.ccb*. **Make sure you've selected the bunny - a common mistake is to create code connections with the wrong CCNodes.** Go to the code connections tab (second tab on the top-right) and give the bunny the *Doc root var* name *hero*:
 >
-> ![](../Tutorial-Images/SpriteBuilder_connectHero.png)
+> ![Connect hero to code](../Tutorial-Images/SpriteBuilder_connectHero.png)
 
 Be sure to publish your project! 
 
@@ -128,6 +128,6 @@ Finally, you check if more than three tenths of a second passed since the last t
 
 Now run your game again. The behavior should be similar to this:
 
-![](../Tutorial-Images/SpriteBuilder_bunnyRotation.gif)
+![Bunny rotating](../Tutorial-Images/SpriteBuilder_bunnyRotation.gif)
 
 Hopping up and down is fun, but it would be even better if our bunny was going somewhere!
