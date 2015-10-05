@@ -8,11 +8,11 @@ Now that the player can die, you should implement the very last step: scoring po
 > [action]
 > First create a *LabelTTF* in *MainScene.ccb* to display the current score. Make the label any font you'd like. Display it in the middle of the screen near the top. Add a *doc root var* code connection to the label by entering *scoreLabel* in the corresponding field. It should look approximately like this when you're done:
 >
-> ![](../Tutorial-Images/SpriteBuilder_scoreLabel.png)
+> ![Score label](../Tutorial-Images/SpriteBuilder_scoreLabel.png)
 >
 > Now open *Obstacle.ccb* to enable physics on the *goal* node between the pipes. Make it a *Static* body and change its *Collision Type* to *goal*. Then switch to the Code Connections tab and set its *Custom Class* to *Goal*:
 >
-> ![](../Tutorial-Images/SpriteBuilder_goal.png)
+> ![Goal](../Tutorial-Images/SpriteBuilder_goal.png)
 >
 > Now switch to Xcode to implement increasing the score every time the player collides with one of the goals, which you take as the assumption that the player has passed (or at least reached) those pipes.
 >
