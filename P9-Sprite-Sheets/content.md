@@ -12,7 +12,7 @@ Moving forward with any decent game, you will want to use Sprite Sheets (better 
 
 Whether you use PNG or PVR as the sprite sheet format, you will observe a common "black line" artifact that can pretty much show up anywhere in tiled graphics but is surprisingly simple to fix. First, see the highlighted issue - you may have seen that somewhere, sometime before:
 
-![](../Tutorial-Images/blackLine.png)
+![Black line](../Tutorial-Images/blackLine.png)
 
 > [action]
 > To fix this quickly, open *MainScene.swift* and navigate to the *update* method. Add the following code just below the lines that assign values to the *hero.position* and *gamePhysicsNode.position*:
