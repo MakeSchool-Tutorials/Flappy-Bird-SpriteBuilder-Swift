@@ -9,7 +9,7 @@ At this point you have been introduced to many concepts in iOS game development.
 
 Let's take a look at what you have learned so far.
 
-![](./game.png)
+![The game](./game.png)
 
 ###Creating a New Project
 
@@ -93,4 +93,4 @@ At the beginning of the Hoppy Bunny tutorials you learned how to create a new Sp
 
 The solution to this [tutorial is available on GitHub](https://github.com/MakeSchool/HoppyBunny-SpriteBuilder-Swift).
 
-![](../Tutorial-Images/labtocat.png)
+![Github lab cat](../Tutorial-Images/labtocat.png)
