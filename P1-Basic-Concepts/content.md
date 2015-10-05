@@ -20,11 +20,11 @@ If you haven't already, it's time to make a SpriteBuilder project for Hoppy Bunn
 > [action]
 > The first step is to create a new SpriteBuilder project by opening SpriteBuilder and selecting `File > New > Project`. You need to select `Swift` as the *Primary Language* in the *New File* dialog as highlighted below:
 >
-> ![](../Tutorial-Images/SpriteBuilder_languageSelect.png)
+> ![Select Swift as primary language](../Tutorial-Images/SpriteBuilder_languageSelect.png)
 
 #Adding artwork
 
 > [action]
 > After the project is created, you should [download our art pack for this game](https://github.com/MakeSchool-Tutorials/Flappy-Bird-SpriteBuilder-Swift/raw/master/assets.zip). Add the art pack you just downloaded to your SpriteBuilder project by first unpacking the archive, then dragging the folder onto the File View in SpriteBuilder (lower left area where files & folders are displayed):
 >
-> ![](../Tutorial-Images/SpriteBuilder_artpack.png)
+> ![Dragging folder on file view](../Tutorial-Images/SpriteBuilder_artpack.png)
