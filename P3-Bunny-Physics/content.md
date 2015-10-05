@@ -12,14 +12,14 @@ Because the *Hoppy Bunny Swift* game uses physics, you need to add a *CCPhysicsN
 > [action]
 > Open *MainScene.ccb* and drag a *Physics Node* from the Node Library View onto the stage. Set the size of the Physics Node to be a 100% of the parent's size:
 >
-> ![](../Tutorial-Images/SpriteBuilder_physicsNode.png)
+> ![Set the size of physics node](../Tutorial-Images/SpriteBuilder_physicsNode.png)
 
 #Make the ground static
 
 > [action]
 > Select the ground node. On its Item Physics tab, enable physics and make it a *Static* body.
 >
-> ![](../Tutorial-Images/SpriteBuilder_groundPhysics.png)
+> ![Make the ground static](../Tutorial-Images/SpriteBuilder_groundPhysics.png)
 >
 > Drag the ground node into the timeline so it becomes a child of the *CCPhysicsNode*. Remember that every Node that has physics enabled needs to be below a *CCPhysicsNode* in the hierarchy; otherwise, it will not behave like a physics object, nor will it collide with other physics bodies.
 
@@ -28,7 +28,7 @@ Because the *Hoppy Bunny Swift* game uses physics, you need to add a *CCPhysicsN
 > [action]
 > Open *Hero.ccb* and select the Bunny sprite. Switch to the Item Physics tab and check the enable physics checkbox. Make sure the body type is set to *Dynamic*.
 >
-> ![](../Tutorial-Images/SpriteBuilder_bunnyPhysics.png)
+> ![Enabling bunny physics](../Tutorial-Images/SpriteBuilder_bunnyPhysics.png)
 
 #Add the bunny to the world
 
@@ -45,7 +45,7 @@ Sometimes *Sub Files* are not displayed properly when initially placed into a sc
 > [action]
 > Before you run the game, let's add some crystals above the ground to complete the visual appeal of *Hoppy Bunny Swift* by adding `bg_crystals.png` onto the stage:
 >
-> ![](../Tutorial-Images/SpriteBuilder_crystalPosition.png)
+> ![Adding crystals](../Tutorial-Images/SpriteBuilder_crystalPosition.png)
 >
 > Set the *position* of the crystal to `(160.0, 134.0)`. Make sure all the decorative elements are placed above the *CCPhysicsNode* in the timeline. This will ensure that the hero and ground will be drawn in front of the background images like the clouds and crystals.
 
@@ -55,7 +55,7 @@ Like the ground's position, the crystals are being positioned where we think the
 
 You are ready to publish your project and run the App from Xcode! When you run your project, you should see the bunny slowly sailing down and coming to a rest on the ground:
 
-![](../Tutorial-Images/XCode_bunnyFalling.gif)
+![Bunny falling](../Tutorial-Images/XCode_bunnyFalling.gif)
 
 > [info]
 > Remember, to open your project in Xcode, select File -> Open Project in Xcode. While in Xcode, you can run your project by going selecting Product -> Run.
