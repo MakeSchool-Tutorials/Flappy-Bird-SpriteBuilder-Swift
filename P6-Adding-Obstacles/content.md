@@ -8,7 +8,7 @@ Now you will be adding obstacles and implement a mechanism to randomly create mo
 > [action]
 > Go back to SpriteBuilder and create a new *CCB File* of type *Node* for the obstacles:
 >
-> ![](../Tutorial-Images/SpriteBuilder_obstacleNode.png)
+> ![Create a new CCB file](../Tutorial-Images/SpriteBuilder_obstacleNode.png)
 
 You will construct the obstacles with two carrots, one at the top and one at the bottom and *CCNode* in between which will be used as a goal trigger - the player's score increases when colliding with the goal node.
 
@@ -44,14 +44,14 @@ You will construct the obstacles with two carrots, one at the top and one at the
 >
 > Your obstacle should look something like this:
 >
-> ![](../Tutorial-Images/SpriteBuilder_obstacle.png)
+> ![Obstacles](../Tutorial-Images/SpriteBuilder_obstacle.png)
 
 It is important to get the pipe's positions right, to ensure that the obstacles look the same on an 3.5-inch and a 4-inch phone.
 
 > [action]
 > You can test if you setup the obstacle correctly by adding an instance of *Obstacle.ccb* to the *MainScene.ccb* by dragging the *Obstacle.ccb* onto the *MainScene.ccb* stage. Be sure to save the *Obstacle.ccb* document because CCB instances (represented by *Sub File* nodes) will always use the state of a document when it was last saved, but won't show any (as of yet) unsaved modifications. The result should be similar to this one:
 >
-> ![](../Tutorial-Images/SpriteBuilder_obstacleCheck.png)
+> ![Checking the obstacles](../Tutorial-Images/SpriteBuilder_obstacleCheck.png)
 
 Once you have successfully tested that the obstacle looks correct, remove it from *MainScene.ccb,* as you will write code to add obstacles.
 
@@ -134,7 +134,7 @@ The next challenge you are going to tackle is generating randomized obstacles. T
 > [action]
 > First, open *Obstacle.ccb* in SpriteBuilder, select the root CCNode and assign it the custom class *Obstacle*:
 >
-> ![](../Tutorial-Images/SpriteBuilder_obstacleClassConnect.png)
+> ![Connecting obstacle to class](../Tutorial-Images/SpriteBuilder_obstacleClassConnect.png)
 >
 > Also set up a *doc root var* code connection for the top and the bottom pipe sprites in the *Obstacle.ccb*. Enter in the *doc root var* field *topCarrot* for the carrot\_top sprite and *bottomCarrot* for the carrot\_bottom sprite.
 >
@@ -205,7 +205,7 @@ While you can use the zOrder property to fix that, it's a lot easier to use "lay
 > [action]
 > Open *MainScene.ccb* in SpriteBuilder and drag a *Node* from the Node Library View onto the CCPhysicsNode. Drag and move the newly added node so that it is the first node after CCPhysicsNode, and you may want to rename it to "obstacles layer":
 >
-> ![](../Tutorial-Images/SpriteBuilder_obstacleLayer.png)
+> ![Obstacle layer](../Tutorial-Images/SpriteBuilder_obstacleLayer.png)
 >
 > Then select that *obstacles layer* node and set up a code connection. In the *doc root var* field enter *obstaclesLayer*.
 >
@@ -223,4 +223,4 @@ While you can use the zOrder property to fix that, it's a lot easier to use "lay
 
 Now you can run the App and see the pipes drawn behind the ground:
 
-![](../Tutorial-Images/SpriteBuilder_obstacleDrawOrder.gif)
+![Pipes behind the ground](../Tutorial-Images/SpriteBuilder_obstacleDrawOrder.gif)
