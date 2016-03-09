@@ -113,7 +113,7 @@ You will now implement a mechanism that checks if an obstacle moved off the scre
 >            // obstacle moved past left side of screen?
 >            if obstacleScreenPosition.x < (-obstacle.contentSize.width) {
 >                obstacle.removeFromParent()
->                obstacles.removeAtIndex(obstacles.indexOf(obstacle))
+>                obstacles.removeAtIndex(obstacles.indexOf(obstacle)!)
 >    
 >                // for each removed obstacle, add a new one
 >                spawnNewObstacle()
